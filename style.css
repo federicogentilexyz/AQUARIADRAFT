@@ -224,28 +224,30 @@ body {
     text-align: right;
 }
 
-/* === CONTENUTO ESPANDIBILE (Animazione fluida) === */
+/* === CONTENUTO ESPANDIBILE (Griglia allineata) === */
 .event-details {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    padding: 0; /* Rimosso il padding sinistro: ora il testo parte sotto la data */
-    display: flex; 
-    justify-content: space-between;
-    gap: 40px;
-    /* Animazione scivolamento e dissolvenza */
+    padding: 0;
+    
+    /* Trasformato in GRID per allinearsi perfettamente alle colonne dell'header */
+    display: grid; 
+    grid-template-columns: 140px 2fr 1fr 80px;
+    
     transition: max-height 0.5s ease-in-out, opacity 0.4s ease, padding 0.4s ease;
 }
 
 /* Quando la riga è aperta, espande l'altezza e mostra il contenuto */
 .event-item.open .event-details {
-    max-height: 1500px; /* Valore aumentato per accogliere immagini alte */
+    max-height: 1500px; /* Valore alto per accogliere immagini alte */
     opacity: 1;
-    padding: 20px 0 0 0; /* Padding superiore per separare dal titolo, nessun margine inferiore così l'immagine tocca la linea */
+    padding: 20px 0 0 0; /* Nessun margine inferiore, l'immagine tocca la linea */
 }
 
 .e-desc {
-    flex: 1.3;
+    grid-column: 1 / 3; /* Occupa le colonne 1 (Data) e 2 (Titolo) */
+    padding-right: 60px; /* Margine per non sbattere contro l'immagine */
     display: flex;
     flex-direction: column;
 }
@@ -253,7 +255,7 @@ body {
 .e-desc p {
     font-family: var(--font-serif);
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1.15; /* INTERLINEA RIDOTTA per un testo più compatto */
     margin-bottom: 25px;
 }
 
@@ -263,8 +265,8 @@ body {
     font-size: 1rem;
     color: #111;
     text-decoration: none;
-    margin-top: auto; /* Lo spinge in basso */
-    margin-bottom: 20px; /* Lo tiene sollevato dalla linea inferiore per non farlo attaccare */
+    margin-top: auto; /* Lo spinge verso il basso */
+    margin-bottom: 20px; /* Lo solleva dalla riga sottostante */
 }
 
 .buy-tickets:hover {
@@ -273,15 +275,15 @@ body {
 
 /* === IMMAGINE DELL'EVENTO === */
 .e-image {
-    flex: 1;
-    display: flex; /* Flex permette all'immagine di prendere tutta l'altezza disponibile */
+    grid-column: 3 / 5; /* Occupa le colonne 3 (Location) e 4 (Prezzo). ALLINEAMENTO PERFETTO! */
+    display: flex;
 }
 
 .e-image img {
     width: 100%;
-    height: 100%; /* Si allunga fino in fondo al contenitore */
-    min-height: 400px; /* Garantisce che l'immagine sia "più lunga" anche se c'è poco testo */
-    object-fit: cover; /* Evita che l'immagine si deformi allungandosi */
+    height: 100%; 
+    min-height: 400px; /* Questo garantisce l'effetto lungo e verticale */
+    object-fit: cover; 
     display: block;
 }
 
@@ -289,10 +291,15 @@ body {
 @media (max-width: 900px) {
     .about-text { font-size: 1.5rem; }
     
-    /* Ridimensiona le colonne della tabella eventi */
     .event-header { grid-template-columns: 100px 1.5fr 1fr 60px; }
-    .event-details { flex-direction: column; }
-    .e-image { order: -1; margin-bottom: 20px; } /* Immagine sopra al testo su tablet */
+    
+    /* Su tablet togliamo la griglia e impiliamo gli elementi */
+    .event-item.open .event-details { 
+        display: flex; 
+        flex-direction: column; 
+    }
+    .e-desc { padding-right: 0; }
+    .e-image { order: -1; margin-bottom: 20px; } /* Immagine sopra al testo */
     .e-image img { min-height: 300px; }
 }
 
@@ -304,9 +311,8 @@ body {
         gap: 15px;
     }
 
-    /* Griglia eventi per smartphone */
     .event-header { grid-template-columns: 80px 1fr; gap: 10px; }
-    .e-loc, .e-price { display: none; } /* Nasconde le colonnine extra su schermi piccoli */
+    .e-loc, .e-price { display: none; } 
 }
 
 /* === TEMA BLU PER HUB EVENTS === */
@@ -325,10 +331,6 @@ body.hub-page .buy-tickets {
 body.hub-page .events-list { border-bottom: 1px solid #0000ff; }
 body.hub-page .event-header { border-top: 1px solid #0000ff; }
 
-body.hub-page .buy-tickets:hover,
-body.hub-page .events-link:hover {
-    color: #0000aa; 
-}
 body.hub-page .buy-tickets:hover,
 body.hub-page .events-link:hover {
     color: #0000aa; 
