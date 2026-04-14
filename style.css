@@ -106,7 +106,8 @@ body {
 .main-content {
     margin-left: var(--sidebar-width);
     flex: 1;
-    padding: 30px 40px 0 40px;
+    /* Margini orizzontali ridotti per allargare il contenuto e assomigliare alla foto */
+    padding: 30px 15px 0 15px; 
     min-height: 100vh;
     background-color: var(--bg-color);
 }
@@ -156,7 +157,7 @@ body {
     height: auto;
     object-fit: cover;
     display: block;
-    /* Stondatura ridotta per un effetto più pulito */
+    /* Stondatura ridotta (8px) applicata a tutti i bordi di ogni immagine */
     border-radius: 8px; 
 }
 
@@ -228,7 +229,7 @@ body {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    padding: 0 0 0 140px; /* Margine sinistro per allinearsi al titolo */
+    padding: 0; /* Rimosso il padding sinistro: ora il testo parte sotto la data */
     display: flex; 
     justify-content: space-between;
     gap: 40px;
@@ -238,9 +239,9 @@ body {
 
 /* Quando la riga è aperta, espande l'altezza e mostra il contenuto */
 .event-item.open .event-details {
-    max-height: 1200px; /* Valore alto per contenere comodamente immagini e testo lunghi */
+    max-height: 1500px; /* Valore aumentato per accogliere immagini alte */
     opacity: 1;
-    padding: 10px 0 40px 140px; /* Ripristina il padding verticale per dare respiro */
+    padding: 20px 0 0 0; /* Padding superiore per separare dal titolo, nessun margine inferiore così l'immagine tocca la linea */
 }
 
 .e-desc {
@@ -262,20 +263,25 @@ body {
     font-size: 1rem;
     color: #111;
     text-decoration: none;
-    margin-top: auto; /* Lo spinge in basso per allinearlo alla fine dell'immagine */
+    margin-top: auto; /* Lo spinge in basso */
+    margin-bottom: 20px; /* Lo tiene sollevato dalla linea inferiore per non farlo attaccare */
 }
 
 .buy-tickets:hover {
     text-decoration: underline;
 }
 
+/* === IMMAGINE DELL'EVENTO === */
 .e-image {
     flex: 1;
+    display: flex; /* Flex permette all'immagine di prendere tutta l'altezza disponibile */
 }
 
 .e-image img {
     width: 100%;
-    height: auto;
+    height: 100%; /* Si allunga fino in fondo al contenitore */
+    min-height: 400px; /* Garantisce che l'immagine sia "più lunga" anche se c'è poco testo */
+    object-fit: cover; /* Evita che l'immagine si deformi allungandosi */
     display: block;
 }
 
@@ -285,9 +291,9 @@ body {
     
     /* Ridimensiona le colonne della tabella eventi */
     .event-header { grid-template-columns: 100px 1.5fr 1fr 60px; }
-    .event-details { padding-left: 100px; flex-direction: column; }
-    .event-item.open .event-details { padding-left: 100px; }
+    .event-details { flex-direction: column; }
     .e-image { order: -1; margin-bottom: 20px; } /* Immagine sopra al testo su tablet */
+    .e-image img { min-height: 300px; }
 }
 
 @media (max-width: 600px) {
@@ -301,8 +307,6 @@ body {
     /* Griglia eventi per smartphone */
     .event-header { grid-template-columns: 80px 1fr; gap: 10px; }
     .e-loc, .e-price { display: none; } /* Nasconde le colonnine extra su schermi piccoli */
-    .event-details { padding-left: 0; }
-    .event-item.open .event-details { padding-left: 0; }
 }
 
 /* === TEMA BLU PER HUB EVENTS === */
@@ -321,6 +325,10 @@ body.hub-page .buy-tickets {
 body.hub-page .events-list { border-bottom: 1px solid #0000ff; }
 body.hub-page .event-header { border-top: 1px solid #0000ff; }
 
+body.hub-page .buy-tickets:hover,
+body.hub-page .events-link:hover {
+    color: #0000aa; 
+}
 body.hub-page .buy-tickets:hover,
 body.hub-page .events-link:hover {
     color: #0000aa; 
