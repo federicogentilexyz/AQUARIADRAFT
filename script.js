@@ -49,7 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 2. LOGICA MULTI-SHEET (ART & HUB)
+    // 2. FUNZIONE PER CONVERTIRE LINK GOOGLE DRIVE
+    // ==========================================
+    function getDirectImageUrl(url) {
+        if (!url) return '';
+        
+        let fileId = null;
+
+        // Cerca l'ID nel formato standard di Drive (/file/d/...)
+        const driveMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (driveMatch && driveMatch[1]) {
+            fileId = driveMatch[1];
+        } else {
+            // Cerca l'ID nel formato alternativo (id=...)
+            const openMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
+            if (openMatch && openMatch[1]) {
+                 fileId = openMatch[1];
+            }
+        }
+
+        // Se abbiamo trovato un ID di Google Drive, usiamo il server immagini dedicato (lh3)
+        if (fileId) {
+            return `https://lh3.googleusercontent.com/d/${fileId}`;
+        }
+
+        // Se non è Drive (es. link diretto da GitHub o altro sito), lascia il link così com'è
+        return url;
+    }
+
+    // ==========================================
+    // 3. LOGICA MULTI-SHEET (ART & HUB) E ACCORDION
     // ==========================================
     const eventsContainer = document.getElementById('events-container');
 
@@ -57,12 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let SHEET_ID = '';
         let TAB_NAME = '';
 
-        // Configurazione differenziata per pagina
+        // Associa l'ID del foglio corretto in base alla pagina
         if (currentPath === 'art-events.html') {
             SHEET_ID = '1_Tv5lTTCD8g6jFKB5aOUnN1yklCbzPcZgU0zcLzKX2w';
             TAB_NAME = 'Art_Events';
         } else if (currentPath === 'hub-events.html') {
-            // NUOVO ID PER HUB EVENTS
             SHEET_ID = '139s2vPitxXyqubkfUPQrlse6ZoQbbe7CiPaFpE2jpZ8';
             TAB_NAME = 'Hub_Events';
         }
@@ -73,8 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(url)
                 .then(response => response.text())
                 .then(csvText => {
-                    eventsContainer.innerHTML = ''; 
+                    eventsContainer.innerHTML = ''; // Rimuovi scritta caricamento
 
+                    // Funzione avanzata per leggere il CSV in modo sicuro
                     function parseCSV(text) {
                         let lines = []; let line = []; let curr = ''; let inQuotes = false;
                         for(let i=0; i<text.length; i++) {
@@ -96,18 +125,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const rows = parseCSV(csvText);
 
+                    // Ciclo di creazione degli eventi
                     for (let i = 1; i < rows.length; i++) {
                         const data = rows[i];
-                        if (data.length < 2 || !data[0]) continue;
+                        if (data.length < 2 || !data[0]) continue; // Salta righe vuote
 
-                        // MAPPATURA SECONDO IL TUO ORDINE: A, B, C, D, E, F, G
-                        const date = (data[0] || '').replace(/\n/g, '<br>');      // A: Data
-                        const artist = (data[1] || '').toUpperCase();             // B: Nome Artista
-                        const title = data[2] || '';                              // C: Titolo Mostra
-                        const description = (data[3] || '').replace(/\n/g, '<br>'); // D: Descrizione
-                        const imageUrl = (data[4] || '').trim();                  // E: ImageUrl
-                        const link = (data[5] || '').trim();                      // F: TicketLink
-                        const location = (data[6] || '').replace(/\n/g, '<br>');  // G: Location
+                        // Mappatura colonne
+                        const date = (data[0] || '').replace(/\n/g, '<br>');      
+                        const artist = (data[1] || '').toUpperCase();             
+                        const title = data[2] || '';                              
+                        const description = (data[3] || '').replace(/\n/g, '<br>'); 
+                        
+                        // Passiamo l'URL grezzo alla funzione che sblocca le immagini di Drive
+                        let rawImageUrl = (data[4] || '').trim();                  
+                        const imageUrl = getDirectImageUrl(rawImageUrl);
+
+                        const link = (data[5] || '').trim();                      
+                        const location = (data[6] || '').replace(/\n/g, '<br>');  
                         const price = ''; 
 
                         const article = document.createElement('article');
@@ -131,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         `;
 
+                        // Fisarmonica
                         const header = article.querySelector('.event-header');
                         header.addEventListener('click', function() {
                             document.querySelectorAll('.event-item').forEach(el => {
