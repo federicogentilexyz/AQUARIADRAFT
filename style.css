@@ -116,14 +116,13 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .a-desc { grid-column: 1 / -1; padding-right: 0; }
 .a-desc p { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.3; margin-bottom: 20px; }
 
-/* === TEMA BLU PER HUB EVENTS === */
+/* === TEMA BLU PER HUB EVENTS (Solo contenuti centrali) === */
 body.hub-page .main-title, body.hub-page .e-date, body.hub-page .e-title, body.hub-page .e-loc, body.hub-page .buy-tickets, body.hub-page .event-header::after { color: #0000ff; }
 body.hub-page .events-list, body.hub-page .event-header { border-color: #0000ff; }
 body.hub-page .event-item:first-child .event-header { border-top: none; }
-body.hub-page .hamburger-menu span { background-color: #0000ff; }
 body.hub-page .buy-tickets:hover, body.hub-page .events-link:hover { color: #0000aa; }
-body.hub-page .mobile-menu-title, body.hub-page .mobile-lang-switch { color: #0000ff; }
-body.hub-page .nav-menu li { border-color: #0000ff; }
+/* Niente più regole blu per .hamburger-menu, .mobile-menu-title, .nav-menu ecc. Resteranno neri. */
+
 
 /* ========================================================= */
 /* === MOBILE (Smartphone)                               === */
@@ -170,7 +169,7 @@ body.hub-page .nav-menu li { border-color: #0000ff; }
     .e-title { font-size: 0.85rem; line-height: 1.15; } 
     .e-loc { display: none; } 
     
-    /* Dimensioni di + e - ulteriormente ridotte */
+    /* Dimensioni di + e - */
     .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
     .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
 
