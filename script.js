@@ -51,15 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. FUNZIONI DI UTILITÀ (ImgBB, Dropbox, CSV)
+    // 2. FUNZIONI DI UTILITÀ
     // ==========================================
     function getDirectImageUrl(url) {
         if (!url) return '';
         let cleanUrl = url.trim();
         
-        if (cleanUrl.includes('dropbox.com')) {
-            return cleanUrl.replace('?dl=0', '?raw=1').replace('?dl=1', '?raw=1');
-        }
+        if (cleanUrl.includes('dropbox.com')) return cleanUrl.replace('?dl=0', '?raw=1').replace('?dl=1', '?raw=1');
 
         if (cleanUrl.includes('drive.google.com')) {
             const driveMatch = cleanUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -67,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let fileId = driveMatch ? driveMatch[1] : (openMatch ? openMatch[1] : null);
             if (fileId) return `https://drive.google.com/uc?id=${fileId}`;
         }
-
         return cleanUrl;
     }
 
@@ -104,12 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 homeGallery.innerHTML = '';
                 const rows = parseCSV(csvText);
                 rows.forEach((data, index) => {
-                    if (index === 0 || !data[0]) return; // Salta intestazione
+                    if (index === 0 || !data[0]) return;
                     
                     const imageUrl = getDirectImageUrl(data[0]);
                     const targetPage = (data[1] || '#').trim();
-                    const dateText = (data[2] || '').trim();   // COLONNA C
-                    const artistText = (data[3] || '').trim(); // COLONNA D
+                    const dateText = (data[2] || '').trim();
+                    const artistText = (data[3] || '').trim();
 
                     if (imageUrl) {
                         const linkEl = document.createElement('a');
@@ -164,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="e-date">${data[0].replace(/\n/g, '<br>')}</div>
                                 <div class="e-title">${data[1].toUpperCase()}<br>“${data[2]}”</div>
                                 <div class="e-loc">${(data[6] || '').replace(/\n/g, '<br>')}</div>
-                                <div class="e-price"></div>
                             </div>
                             <div class="event-details">
                                 <div class="e-desc">
@@ -184,5 +180,49 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
         }
+    }
+
+    // ==========================================
+    // 5. LOGICA ARTISTS
+    // ==========================================
+    const artistsContainer = document.getElementById('artists-container');
+    if (artistsContainer) {
+        // INSERISCI QUI L'ID DEL TUO NUOVO GOOGLE SHEET DEGLI ARTISTI:
+        const SHEET_ID_ARTISTS = '1ivpWB8Pe8iO902BvbB5u5IGoFkA5TXI2xcbu7Of5dG0'; 
+        const urlArtists = `https://docs.google.com/spreadsheets/d/${SHEET_ID_ARTISTS}/gviz/tq?tqx=out:csv`;
+
+        fetch(urlArtists)
+            .then(res => res.text())
+            .then(csvText => {
+                artistsContainer.innerHTML = '';
+                const rows = parseCSV(csvText);
+                for (let i = 1; i < rows.length; i++) {
+                    const data = rows[i];
+                    if (!data[0]) continue; // Salta righe vuote
+
+                    const article = document.createElement('article');
+                    article.className = 'event-item'; // Ricicliamo la classe per usare l'effetto fisarmonica
+                    article.innerHTML = `
+                        <div class="artist-header">
+                            <div class="a-name">${data[0]}</div>
+                            <div class="a-category">${data[1] || ''}</div>
+                            <div class="a-date">${data[2] || ''}</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="a-desc">
+                                <p>${(data[3] || '').replace(/\n/g, '<br>')}</p>
+                            </div>
+                        </div>`;
+                    
+                    article.querySelector('.artist-header').addEventListener('click', () => {
+                        document.querySelectorAll('.event-item').forEach(el => { if(el !== article) el.classList.remove('open'); });
+                        article.classList.toggle('open');
+                    });
+                    artistsContainer.appendChild(article);
+                }
+            })
+            .catch(err => {
+                artistsContainer.innerHTML = '<p style="padding: 30px;">Incolla l\'ID del foglio Google nello script.js per visualizzare gli artisti.</p>';
+            });
     }
 });
