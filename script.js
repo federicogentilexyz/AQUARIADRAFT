@@ -57,12 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!url) return '';
         let cleanUrl = url.trim();
         
-        // Se usi Dropbox, lo converte in link diretto
         if (cleanUrl.includes('dropbox.com')) {
             return cleanUrl.replace('?dl=0', '?raw=1').replace('?dl=1', '?raw=1');
         }
 
-        // Se usi Google Drive (Sconsigliato, ma supportato)
         if (cleanUrl.includes('drive.google.com')) {
             const driveMatch = cleanUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             const openMatch = cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
@@ -70,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fileId) return `https://drive.google.com/uc?id=${fileId}`;
         }
 
-        // Se è ImgBB / PostImages, restituisce il link così com'è
         return cleanUrl;
     }
 
@@ -108,16 +105,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rows = parseCSV(csvText);
                 rows.forEach((data, index) => {
                     if (index === 0 || !data[0]) return; // Salta intestazione
+                    
                     const imageUrl = getDirectImageUrl(data[0]);
                     const targetPage = (data[1] || '#').trim();
+                    const dateText = (data[2] || '').trim();   // COLONNA C
+                    const artistText = (data[3] || '').trim(); // COLONNA D
 
                     if (imageUrl) {
                         const linkEl = document.createElement('a');
                         linkEl.href = targetPage;
                         linkEl.className = 'gallery-link';
-                        const img = document.createElement('img');
-                        img.src = imageUrl;
-                        linkEl.appendChild(img);
+                        
+                        linkEl.innerHTML = `
+                            <img src="${imageUrl}" alt="Evento">
+                            <div class="gallery-overlay">
+                                ${dateText ? `<span class="g-date">${dateText}</span>` : ''}
+                                ${artistText ? `<span class="g-artist">${artistText}</span>` : ''}
+                            </div>
+                        `;
                         homeGallery.appendChild(linkEl);
                     }
                 });
