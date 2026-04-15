@@ -29,7 +29,6 @@ body {
     left: 0;
     height: 100vh;
     border-right: 1px solid #999; 
-    /* ALLINEAMENTO: Spazio dal top uniforme a 40px */
     padding: 40px 15px 30px 15px; 
     display: flex;
     flex-direction: column;
@@ -60,7 +59,6 @@ body {
 /* LOGO DESKTOP */
 .desktop-logo {
     display: block; 
-    /* ALLINEAMENTO: Margine calcolato al millimetro (67px) per compensare l'altezza del titolo a destra */
     margin-bottom: 67px; 
     width: 100%;
     max-width: 80px; 
@@ -127,7 +125,6 @@ body {
 .main-content {
     margin-left: var(--sidebar-width);
     flex: 1;
-    /* ALLINEAMENTO: Spazio dal top uniforme a 40px */
     padding: 40px 15px 0 15px; 
     min-height: 100vh;
     background-color: var(--bg-color);
@@ -138,7 +135,7 @@ body {
     justify-content: space-between;
     align-items: flex-start; 
     margin-bottom: 40px; 
-    padding-top: 0; /* Rimosso il padding extra che sfasava tutto */
+    padding-top: 0; 
 }
 
 .main-title {
@@ -188,7 +185,7 @@ body {
     font-size: 1.8rem; 
     line-height: 1.1; 
     color: var(--text-color);
-    max-width: 950px; 
+    /* Rimosso il max-width: 950px per far estendere il testo fino al margine destro */
 }
 
 /* === ACCORDION PAGINA EVENTI === */
