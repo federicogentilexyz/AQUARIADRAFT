@@ -11,7 +11,7 @@
 
 body { background-color: var(--bg-color); color: var(--text-color); display: flex; min-height: 100vh; overflow-x: hidden; }
 
-/* === SIDEBAR (Desktop) === */
+/* === SIDEBAR E NAVIGAZIONE (Desktop) === */
 .sidebar {
     width: var(--sidebar-width); position: fixed; top: 0; left: 0; height: 100vh;
     border-right: 1px solid #999; padding: 40px 15px 30px 15px; display: flex; flex-direction: column;
@@ -25,14 +25,17 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 }
 .menu-arrow.show { opacity: 1; }
 
-.desktop-logo { display: block; margin-bottom: 67px; width: 100%; max-width: 80px; }
+/* Margine calcolato al millimetro per allineare il menu ai contenuti di destra */
+.desktop-logo { display: block; margin-bottom: 68px; width: 100%; max-width: 80px; }
 .desktop-logo img, .desktop-logo svg { width: 100%; height: auto; display: block; }
 
 .nav-menu ul { list-style: none; }
 .nav-menu li { margin-bottom: 4px; }
 .nav-menu a { text-decoration: none; color: var(--text-color); font-family: var(--font-serif); font-size: 1.1rem; transition: color 0.2s ease; display: inline-block; width: 100%; }
 .nav-menu a:hover, .nav-menu a.active { color: #111; }
-.hours { margin-top: auto; font-family: var(--font-sans); font-size: 0.6rem; color: #222; }
+
+.mobile-menu-header { display: none; }
+.hours { margin-top: auto; font-family: var(--font-sans); font-size: 0.75rem; line-height: 1.4; color: #222; margin-bottom: 10px; white-space: nowrap; }
 
 /* === HEADER MOBILE E HAMBURGER === */
 .mobile-header { display: none; }
@@ -45,7 +48,19 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 /* === MAIN CONTENT === */
 .main-content { margin-left: var(--sidebar-width); flex: 1; padding: 40px 15px 0 15px; }
 .content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; padding-top: 0; }
-.main-title { font-family: var(--font-serif); font-size: 4rem; line-height: 0.8; margin-bottom: 40px; letter-spacing: -0.02em; }
+
+/* TITOLI (Meno bold e puliti dai margini in eccesso) */
+.main-title { 
+    font-family: var(--font-serif); 
+    font-size: 4rem; 
+    line-height: 0.8; 
+    margin-bottom: 0; /* Rimosso per non sfasare l'allineamento */
+    letter-spacing: -0.02em; 
+    font-weight: 300; 
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .events-link { font-family: var(--font-sans); font-size: 1.1rem; color: var(--text-color); text-decoration: none; margin-top: 5px; }
 .events-link:hover { text-decoration: underline; }
 
@@ -53,48 +68,25 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .gallery { display: flex; flex-direction: column; width: 100%; padding-bottom: 50px; }
 .gallery-link { display: block; width: 100%; position: relative; margin-bottom: 0; }
 .gallery img { width: 100%; height: auto; display: block; border-radius: 8px; object-fit: cover; }
+.gallery-overlay { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; flex-direction: column; align-items: center; gap: 0; }
+.g-date { background-color: white; padding: 2px 6px; font-family: var(--font-sans); font-size: 0.8rem; color: #111; white-space: nowrap; }
+.g-artist { background-color: white; padding: 2px 6px; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 400; text-transform: uppercase; color: #111; white-space: nowrap; }
 
-/* BOX BIANCO (Etichetta a "highlight") - SOLO MOBILE */
-.gallery-overlay {
-    display: none; /* Si attiva solo da mobile */
-    position: absolute;
-    top: 50%; left: 50%; 
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    
-    /* Configurazione per impilare e centrare i due testi perfettamente */
-    flex-direction: column;
-    align-items: center;
-    gap: 0; /* Nessun divario tra riga sopra e riga sotto */
-}
-
-/* Sfondo bianco applicato direttamente ai testi per seguire i margini delle lettere */
-.g-date { 
-    background-color: white;
-    padding: 2px 6px; 
-    font-family: var(--font-sans); 
-    font-size: 0.8rem; 
-    color: #111; 
-}
-.g-artist { 
-    background-color: white;
-    padding: 2px 6px; 
-    font-family: var(--font-sans); 
-    font-size: 0.9rem; 
-    font-weight: 400; /* Testo normale, NON in grassetto */
-    text-transform: uppercase; 
-    color: #111; 
-}
-
-/* === ALTRE PAGINE === */
+/* === ALTRE PAGINE E FISARMONICA === */
 .about-text { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.1; color: var(--text-color); }
 .events-list { width: 100%; border-bottom: 1px solid #111; margin-bottom: 50px; }
 .event-item { width: 100%; }
+
+/* Eventi classici: Rimosso padding per allinearsi perfettamente */
 .event-header { display: grid; grid-template-columns: 140px 2fr 1fr 80px; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: start; transition: background-color 0.2s ease; }
+.event-item:first-child .event-header { border-top: none; padding-top: 0; }
 .event-header:hover { background-color: rgba(0,0,0,0.03); }
+
 .e-date { font-family: var(--font-sans); font-size: 1rem; font-weight: 600; line-height: 1.3; }
 .e-title { font-family: var(--font-serif); font-size: 1.35rem; line-height: 1.2; }
 .e-loc { font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; line-height: 1.3; color: #333; }
+
+/* Fisarmonica dettagli */
 .event-details { max-height: 0; overflow: hidden; opacity: 0; padding: 0; display: grid; grid-template-columns: 140px 2fr 1fr 80px; transition: 0.5s ease; }
 .event-item.open .event-details { max-height: 1500px; opacity: 1; padding: 20px 0; }
 .e-desc { grid-column: 1 / 3; padding-right: 60px; display: flex; flex-direction: column; }
@@ -103,11 +95,35 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .e-image { grid-column: 3 / 5; display: flex; }
 .e-image img { width: 100%; height: 100%; min-height: 400px; object-fit: cover; display: block; }
 
-/* === HUB PAGE THEME === */
+/* === ARTISTS MENU === */
+.artist-header { 
+    display: grid; 
+    grid-template-columns: 2fr 2fr 1fr; 
+    padding: 20px 0; 
+    cursor: pointer; 
+    border-top: 1px solid #111; 
+    align-items: center; 
+    transition: background-color 0.2s ease; 
+}
+.event-item:first-child .artist-header { border-top: none; padding-top: 0; }
+.artist-header:hover { background-color: rgba(0,0,0,0.03); }
+
+/* Nome dell'artista meno bold (600 invece di 800) */
+.a-name { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; }
+.a-category { font-family: var(--font-serif); font-size: 1.1rem; }
+.a-date { font-family: var(--font-serif); font-size: 1.1rem; text-align: right; }
+
+.a-desc { grid-column: 1 / -1; padding-right: 0; }
+.a-desc p { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.3; margin-bottom: 20px; }
+
+/* === TEMA BLU PER HUB EVENTS === */
 body.hub-page .main-title, body.hub-page .e-date, body.hub-page .e-title, body.hub-page .e-loc, body.hub-page .buy-tickets, body.hub-page .event-header::after { color: #0000ff; }
 body.hub-page .events-list, body.hub-page .event-header { border-color: #0000ff; }
+body.hub-page .event-item:first-child .event-header { border-top: none; }
 body.hub-page .hamburger-menu span { background-color: #0000ff; }
 body.hub-page .buy-tickets:hover, body.hub-page .events-link:hover { color: #0000aa; }
+body.hub-page .mobile-menu-title, body.hub-page .mobile-lang-switch { color: #0000ff; }
+body.hub-page .nav-menu li { border-color: #0000ff; }
 
 /* ========================================================= */
 /* === MOBILE (Smartphone)                               === */
@@ -116,31 +132,55 @@ body.hub-page .buy-tickets:hover, body.hub-page .events-link:hover { color: #000
     .mobile-header { display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--bg-color); z-index: 1002; padding: 0 20px; }
     .logo-mobile { width: 70px; display: block; }
     .logo-mobile img, .logo-mobile svg { width: 100%; height: auto; display: block; }
-    .sidebar { transform: translateX(-100%); width: 250px; padding-top: 90px; transition: 0.3s ease; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 1001; }
+    
+    .sidebar { transform: translateX(-100%); width: 100%; padding: 90px 20px 30px 20px; transition: 0.3s ease; border-right: none; z-index: 1001; }
     .sidebar.open { transform: translateX(0); }
-    .desktop-logo { display: none; }
+    .desktop-logo, .menu-arrow, .hours { display: none; }
+    
+    .mobile-menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
+    .mobile-menu-title { font-family: var(--font-serif); font-size: 2.8rem; line-height: 1; color: var(--text-color); }
+    
+    /* Lingua menu mobile meno bold (600) */
+    .mobile-lang-switch { font-family: var(--font-sans); font-weight: 600; font-size: 0.9rem; color: var(--text-color); text-decoration: none; margin-bottom: 4px; }
+
+    .nav-menu ul { border-top: none; } 
+    .nav-menu li { margin-bottom: 0; border-bottom: 1px solid #111; }
+    
+    /* Voci menu mobile meno bold (600) */
+    .nav-menu a { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; padding: 15px 0; display: block; }
+
     .main-content { margin-left: 0; padding: 100px 15px 0 15px; }
 
     /* REGOLE SPECIFICHE HOME MOBILE */
     body.home-page .main-content { padding: 70px 0 0 0; }
     body.home-page .content-header { display: none; }
     body.home-page .gallery img { border-radius: 0; }
-    body.home-page .gallery-overlay { display: flex; } /* Mostra il box in formato flessibile */
+    body.home-page .gallery-overlay { display: flex; } 
     
-    /* REGOLE EVENTI MOBILE */
+    /* REGOLE GENERALI EVENTI E ARTISTI MOBILE */
     .content-header { flex-direction: column; margin-bottom: 45px; }
     .main-title { font-size: 1.8rem; }
     .events-link { display: none; } 
-    .event-header { grid-template-columns: 80px 1fr 20px; gap: 10px; padding: 15px 0; }
+    
+    .event-header { grid-template-columns: 80px 1fr 20px; gap: 10px; padding: 15px 0; align-items: start; }
+    .event-item:first-child .event-header, .event-item:first-child .artist-header { padding-top: 0; }
     .e-date { font-size: 0.95rem; font-weight: 800; }
     .e-title { font-size: 1.15rem; }
-    .e-loc { display: none; }
-    .event-header::after { content: '+'; font-size: 1.8rem; font-weight: bold; font-family: var(--font-sans); justify-self: end; }
-    .event-item.open .event-header::after { content: '-'; font-size: 2.2rem; margin-top: -5px; }
+    .e-loc { display: none; } 
+    
+    .event-header::after { content: '+'; font-size: 2.2rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
+    .event-item.open .event-header::after { content: '−'; font-size: 2.6rem; }
+
     .event-item.open .event-details { display: flex; flex-direction: column; padding: 10px 0 20px 0; }
     .e-desc { display: contents; }
     .e-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
     .e-image { order: 2; width: 100%; margin-bottom: 0; } 
     .e-image img { min-height: auto; border-radius: 0; } 
     .buy-tickets { order: 3; margin: 15px 0 0 0; font-size: 1.1rem; font-weight: 800; } 
+
+    /* REGOLE SPECIFICHE ARTISTI MOBILE */
+    .artist-header { grid-template-columns: 1fr auto; padding: 15px 0; align-items: start; }
+    .a-name { font-size: 1rem; grid-column: 1 / 2; }
+    .a-category { font-size: 0.95rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 5px;}
+    .a-date { font-size: 0.95rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
 }
