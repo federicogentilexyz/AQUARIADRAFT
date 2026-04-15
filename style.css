@@ -54,7 +54,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     font-family: var(--font-serif); 
     font-size: 4rem; 
     line-height: 0.8; 
-    margin-bottom: 0; /* Rimosso per non sfasare l'allineamento */
+    margin-bottom: 0; 
     letter-spacing: -0.02em; 
     font-weight: 300; 
     -webkit-font-smoothing: antialiased; 
@@ -77,7 +77,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .events-list { width: 100%; border-bottom: 1px solid #111; margin-bottom: 50px; }
 .event-item { width: 100%; }
 
-/* Eventi classici: Rimosso padding per allinearsi perfettamente */
+/* Eventi classici */
 .event-header { display: grid; grid-template-columns: 140px 2fr 1fr 80px; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: start; transition: background-color 0.2s ease; }
 .event-item:first-child .event-header { border-top: none; padding-top: 0; }
 .event-header:hover { background-color: rgba(0,0,0,0.03); }
@@ -108,7 +108,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .event-item:first-child .artist-header { border-top: none; padding-top: 0; }
 .artist-header:hover { background-color: rgba(0,0,0,0.03); }
 
-/* Nome dell'artista meno bold (600 invece di 800) */
+/* Nome dell'artista meno bold */
 .a-name { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; }
 .a-category { font-family: var(--font-serif); font-size: 1.1rem; }
 .a-date { font-family: var(--font-serif); font-size: 1.1rem; text-align: right; }
@@ -162,14 +162,17 @@ body.hub-page .nav-menu li { border-color: #0000ff; }
     .main-title { font-size: 1.8rem; }
     .events-link { display: none; } 
     
-    .event-header { grid-template-columns: 80px 1fr 20px; gap: 10px; padding: 15px 0; align-items: start; }
+    /* TITOLI EVENTI MOBILE */
+    .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; align-items: start; }
     .event-item:first-child .event-header, .event-item:first-child .artist-header { padding-top: 0; }
-    .e-date { font-size: 0.95rem; font-weight: 800; }
-    .e-title { font-size: 1.15rem; }
+    
+    .e-date { font-size: 0.75rem; font-weight: 800; line-height: 1.2; } 
+    .e-title { font-size: 0.85rem; line-height: 1.15; } 
     .e-loc { display: none; } 
     
-    .event-header::after { content: '+'; font-size: 2.2rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
-    .event-item.open .event-header::after { content: '−'; font-size: 2.6rem; }
+    /* Dimensioni di + e - ulteriormente ridotte */
+    .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
+    .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
 
     .event-item.open .event-details { display: flex; flex-direction: column; padding: 10px 0 20px 0; }
     .e-desc { display: contents; }
@@ -180,7 +183,7 @@ body.hub-page .nav-menu li { border-color: #0000ff; }
 
     /* REGOLE SPECIFICHE ARTISTI MOBILE */
     .artist-header { grid-template-columns: 1fr auto; padding: 15px 0; align-items: start; }
-    .a-name { font-size: 1rem; grid-column: 1 / 2; }
-    .a-category { font-size: 0.95rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 5px;}
-    .a-date { font-size: 0.95rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
+    .a-name { font-size: 0.85rem; grid-column: 1 / 2; line-height: 1.15; } 
+    .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
+    .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
 }
