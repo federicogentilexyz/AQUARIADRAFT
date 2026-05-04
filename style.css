@@ -262,9 +262,12 @@ body.home-page .site-footer {
     }
     
     /* Il 3° (Artists) e il 4° (Art events) prendono in automatico 1fr a testa, affiancandosi! */
-
-    .footer-col:last-child {
+.footer-col:last-child {
         grid-column: 1 / -1; /* L'indirizzo torna a occupare tutto lo spazio in basso */
         margin-top: 10px;
+        
+        /* FIX CSS PER LE PAROLE ORFANE: */
+        text-wrap: pretty; /* Impedisce che "VE" vada a capo da solo */
+        font-size: 0.82rem; /* Rimpicciolisce di un capello l'indirizzo per farlo stare nella riga */
     }
 }
