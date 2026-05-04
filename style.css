@@ -189,3 +189,245 @@ body.home-page .main-content { padding: 70px 0 0 0; }
 .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
 .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
 }
+/* ========================================================= */
+/* === FOOTER NERO (Desktop & Mobile)                    === */
+/* ========================================================= */
+.site-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 60px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Allinea gli elementi al centro verticalmente come nel mockup */
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 80px -15px 0 -15px; /* Allarga il footer ignorando il padding di 15px del main-content */
+}
+
+/* Regola specifica per la home: si attacca direttamente sotto le immagini a schermo intero */
+body.home-page .site-footer {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0; 
+}
+
+.footer-logo {
+    width: 140px;
+}
+
+.footer-logo svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-col a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.footer-col a:hover {
+    opacity: 0.6; /* Effetto hover leggero sui link del footer */
+}
+
+/* ========================================================= */
+/* === FOOTER NERO (Desktop & Mobile)                    === */
+/* ========================================================= */
+.site-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 60px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    
+    /* SOLUZIONE FULL-WIDTH: Scavalca la sidebar e il padding */
+    position: relative;
+    z-index: 105; /* Supera lo z-index 100 della sidebar, così non viene bloccato */
+    margin-top: 80px;
+    margin-left: calc(-1 * var(--sidebar-width) - 15px); /* Si allarga a sinistra */
+    margin-right: -15px; /* Si allarga a destra */
+}
+
+/* Regola per la Home Desktop (che non ha i 15px di padding laterale) */
+body.home-page .site-footer {
+    margin-left: calc(-1 * var(--sidebar-width));
+    margin-right: 0;
+    margin-top: 0; 
+}
+
+.footer-logo {
+    width: 140px;
+}
+
+.footer-logo svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-col a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.footer-col a:hover {
+    opacity: 0.6;
+}
+
+/* ========================================================= */
+/* === FOOTER NERO (Desktop & Mobile)                    === */
+/* ========================================================= */
+.site-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 35px 40px; /* Padding ridotto per rendere il footer meno alto */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.3; /* Interlinea ridotta per avvicinare i link tra loro */
+    font-weight: 300; /* Font meno bold, più elegante */
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* SOLUZIONE FULL-WIDTH: Scavalca la sidebar e il padding */
+    position: relative;
+    z-index: 105; 
+    margin-top: 80px;
+    margin-left: calc(-1 * var(--sidebar-width) - 15px); 
+    margin-right: -15px; 
+}
+
+/* Regola per la Home Desktop (che non ha i 15px di padding laterale) */
+body.home-page .site-footer {
+    margin-left: calc(-1 * var(--sidebar-width));
+    margin-right: 0;
+    margin-top: 0; 
+}
+
+.footer-logo {
+    width: 140px;
+}
+
+.footer-logo svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-col a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    font-weight: 300; /* Assicura che anche i link siano meno bold */
+}
+
+.footer-col a:hover {
+    opacity: 0.6;
+}
+
+/* ========================================================= */
+/* === FOOTER NERO (Desktop & Mobile)                    === */
+/* ========================================================= */
+.site-footer {
+    background-color: #000;
+    color: #fff;
+    padding: 35px 40px; /* Padding ridotto per rendere il footer meno alto */
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.3; /* Interlinea ridotta per avvicinare i link tra loro */
+    font-weight: 300; /* Font meno bold, più elegante */
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* SOLUZIONE FULL-WIDTH: Scavalca la sidebar e il padding */
+    position: relative;
+    z-index: 105; 
+    margin-top: 80px;
+    margin-left: calc(-1 * var(--sidebar-width) - 15px); 
+    margin-right: -15px; 
+}
+
+/* Regola per la Home Desktop (che non ha i 15px di padding laterale) */
+body.home-page .site-footer {
+    margin-left: calc(-1 * var(--sidebar-width));
+    margin-right: 0;
+    margin-top: 0; 
+}
+
+.footer-logo {
+    width: 140px;
+}
+
+.footer-logo svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.footer-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-col a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    font-weight: 300; /* Assicura che anche i link siano meno bold */
+}
+
+.footer-col a:hover {
+    opacity: 0.6;
+}
+
+/* === FOOTER MOBILE === */
+@media (max-width: 768px) {
+    .site-footer {
+        flex-direction: column;
+        align-items: flex-start; 
+        gap: 25px; /* Gap ridotto tra le colonne su mobile */
+        padding: 40px 20px; /* Padding ridotto anche su smartphone */
+        
+        /* Su mobile la sidebar scompare, quindi compensiamo solo i 15px di bordo */
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-top: 60px;
+    }
+    
+    body.home-page .site-footer {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+    }
+
+    .footer-logo {
+        width: 110px;
+    }
+}
