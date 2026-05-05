@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeLink = null;
     navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
+        if (link.getAttribute('href') === currentPath || link.getAttribute('href').includes(currentPath)) {
             link.classList.add('active');
             activeLink = link;
         }
@@ -123,49 +123,65 @@ document.addEventListener('DOMContentLoaded', () => {
                         homeGallery.appendChild(linkEl);
                     }
                 });
-            });
+            })
+            .catch(err => console.error("Errore galleria home:", err));
     }
 
     // ==========================================
-    // 4. LOGICA EVENTI (Art & Hub)
+    // 4. LOGICA EVENTI (Exhibitions & Hub)
     // ==========================================
     const eventsContainer = document.getElementById('events-container');
     if (eventsContainer) {
         let SHEET_ID = '';
         let TAB_NAME = '';
+        
+        // Controllo infallibile: analizza l'intero URL e lo converte in minuscolo
+        const currentPageUrl = window.location.href.toLowerCase();
 
-        if (currentPath === 'art-events.html') {
+        if (currentPageUrl.includes('exhibitions') || currentPageUrl.includes('art-events')) {
             SHEET_ID = '1_Tv5lTTCD8g6jFKB5aOUnN1yklCbzPcZgU0zcLzKX2w';
             TAB_NAME = 'Art_Events';
-        } else if (currentPath === 'hub-events.html') {
+        } else if (currentPageUrl.includes('hub-events')) {
             SHEET_ID = '139s2vPitxXyqubkfUPQrlse6ZoQbbe7CiPaFpE2jpZ8';
             TAB_NAME = 'Hub_Events';
         }
 
         if (SHEET_ID) {
+            eventsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-serif);">Caricamento eventi...</p>';
+
             const urlEvents = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${TAB_NAME}`;
+            
             fetch(urlEvents)
                 .then(res => res.text())
                 .then(csvText => {
                     eventsContainer.innerHTML = '';
                     const rows = parseCSV(csvText);
+                    
                     for (let i = 1; i < rows.length; i++) {
                         const data = rows[i];
-                        if (!data[0]) continue;
+                        if (!data[0]) continue; // Salta righe totalmente vuote
 
+                        // Variabili protette: se la cella è vuota non mandano in blocco il codice
+                        const eDate = data[0] ? data[0].replace(/\n/g, '<br>') : '';
+                        const eTitleName = data[1] ? data[1].toUpperCase() : '';
+                        const eTitleSub = data[2] || '';
+                        const eDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
                         const imageUrl = getDirectImageUrl(data[4]);
+                        const ticketsLink = data[5] || '';
+                        const eLoc = data[6] ? data[6].replace(/\n/g, '<br>') : '';
+
                         const article = document.createElement('article');
                         article.className = 'event-item';
                         article.innerHTML = `
                             <div class="event-header">
-                                <div class="e-date">${data[0].replace(/\n/g, '<br>')}</div>
-                                <div class="e-title">${data[1].toUpperCase()}<br>“${data[2]}”</div>
-                                <div class="e-loc">${(data[6] || '').replace(/\n/g, '<br>')}</div>
+                                <div class="e-date">${eDate}</div>
+                                <div class="e-title">${eTitleName}<br>“${eTitleSub}”</div>
+                                <div class="e-loc">${eLoc}</div>
                             </div>
                             <div class="event-details">
                                 <div class="e-desc">
-                                    <p>${(data[3] || '').replace(/\n/g, '<br>')}</p>
-                                    ${data[5] ? `<a href="${data[5]}" target="_blank" class="buy-tickets">Aquista i biglietti</a>` : ''}
+                                    <p>${eDesc}</p>
+                                    ${ticketsLink ? `<a href="${ticketsLink}" target="_blank" class="buy-tickets">Acquista i biglietti</a>` : ''}
                                 </div>
                                 <div class="e-image">
                                     ${imageUrl ? `<img src="${imageUrl}" alt="Evento">` : ''}
@@ -178,6 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         eventsContainer.appendChild(article);
                     }
+                })
+                .catch(err => {
+                    eventsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-sans); color: red;">Ops! Impossibile caricare gli eventi. Verifica che il foglio Google sia pubblico e che i nomi siano corretti.</p>';
+                    console.error(err);
                 });
         }
     }
@@ -187,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const artistsContainer = document.getElementById('artists-container');
     if (artistsContainer) {
-        // INSERISCI QUI L'ID DEL TUO NUOVO GOOGLE SHEET DEGLI ARTISTI:
         const SHEET_ID_ARTISTS = '1ivpWB8Pe8iO902BvbB5u5IGoFkA5TXI2xcbu7Of5dG0'; 
         const urlArtists = `https://docs.google.com/spreadsheets/d/${SHEET_ID_ARTISTS}/gviz/tq?tqx=out:csv`;
 
@@ -198,19 +217,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rows = parseCSV(csvText);
                 for (let i = 1; i < rows.length; i++) {
                     const data = rows[i];
-                    if (!data[0]) continue; // Salta righe vuote
+                    if (!data[0]) continue; 
+
+                    // Variabili protette anche qui per sicurezza
+                    const aName = data[0] || '';
+                    const aCat = data[1] || '';
+                    const aDate = data[2] || '';
+                    const aDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
 
                     const article = document.createElement('article');
-                    article.className = 'event-item'; // Ricicliamo la classe per usare l'effetto fisarmonica
+                    article.className = 'event-item'; 
                     article.innerHTML = `
                         <div class="artist-header">
-                            <div class="a-name">${data[0]}</div>
-                            <div class="a-category">${data[1] || ''}</div>
-                            <div class="a-date">${data[2] || ''}</div>
+                            <div class="a-name">${aName}</div>
+                            <div class="a-category">${aCat}</div>
+                            <div class="a-date">${aDate}</div>
                         </div>
                         <div class="event-details">
                             <div class="a-desc">
-                                <p>${(data[3] || '').replace(/\n/g, '<br>')}</p>
+                                <p>${aDesc}</p>
                             </div>
                         </div>`;
                     
@@ -222,7 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(err => {
-                artistsContainer.innerHTML = '<p style="padding: 30px;">Incolla l\'ID del foglio Google nello script.js per visualizzare gli artisti.</p>';
+                artistsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-sans); color: red;">Impossibile caricare gli artisti. Verifica il collegamento al file Google.</p>';
+                console.error(err);
             });
     }
 });
