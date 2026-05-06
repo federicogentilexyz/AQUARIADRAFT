@@ -35,14 +35,8 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     width: 100%; 
     max-width: 80px; 
     flex-shrink: 0;
-    
-    /* COMANDO 1: SU E GIÙ PER IL LOGO */
     margin-top: -10px; 
-    
-    /* COMANDO 2: SU E GIÙ PER LA PAROLA EXHIBITIONS */
     margin-bottom: 19px; 
-
-    /* COMANDO 3: DESTRA E SINISTRA PER IL LOGO */
     margin-left: 12px; 
 }
 
@@ -98,13 +92,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .events-link:hover { text-decoration: underline; }
 
 /* === GALLERY HOME === */
-.gallery { 
-    display: flex; 
-    flex-direction: column; 
-    width: 100%; 
-    padding-bottom: 50px; 
-    min-height: 100vh; 
-}
+.gallery { display: flex; flex-direction: column; width: 100%; padding-bottom: 50px; }
 .gallery-link { display: block; width: 100%; position: relative; margin-bottom: 0; }
 .gallery img { width: 100%; height: auto; display: block; border-radius: 8px; object-fit: cover; }
 
@@ -184,34 +172,24 @@ body.home-page .gallery-overlay { display: block !important; }
 }
 .hero-quote p { margin-bottom: 0; }
 
-
 /* ========================================================= */
-/* === REGOLE FISARMONICA: RIGHE E PROTEZIONE FOOTER     === */
+/* === REGOLE FISARMONICA (RIGHE PRECISE E FOOTER SALVO) === */
 /* ========================================================= */
-
 .events-list { 
     width: 100%; 
-    margin-bottom: 80px; 
-    /* SALVA ORARI: Mantiene invisibilmente alta la lista spingendo in giù il footer */
-    min-height: 70vh; 
-    /* NIENTE border-bottom qui, altrimenti scappa via! */
+    /* La magia è qui: il margine gigante spinge il footer giù senza allungare la lista! */
+    margin-bottom: 40vh; 
+    border-bottom: 1px solid #111; /* La riga rimane incollata esattamente sotto l'ultima voce */
 }
 
 .event-item { width: 100%; }
-
-/* La riga di chiusura viene agganciata SOLO ed ESCLUSIVAMENTE all'ultimo elemento.
-   Così resta perfettamente incollata al testo, ignorando lo spazio invisibile sottostante! */
-.event-item:last-child {
-    border-bottom: 1px solid #111;
-}
 
 .event-header { 
     display: grid; 
     grid-template-columns: 140px 2fr 1fr 80px; 
     padding: 20px 0; 
     cursor: pointer; 
-    /* Solo bordo superiore, spessore rigorosamente 1px */
-    border-top: 1px solid #111; 
+    border-top: 1px solid #111; /* Righe di esattamente 1px */
     align-items: start; 
     transition: background-color 0.2s ease; 
 }
@@ -237,7 +215,6 @@ body.home-page .gallery-overlay { display: block !important; }
     grid-template-columns: 2fr 2fr 1fr; 
     padding: 20px 0; 
     cursor: pointer; 
-    /* Solo bordo superiore, spessore rigorosamente 1px */
     border-top: 1px solid #111; 
     align-items: center; 
     transition: background-color 0.2s ease; 
@@ -278,10 +255,7 @@ body.hub-page .mobile-menu-title {
 
 body.hub-page .event-header { border-color: #0000ff; } 
 body.hub-page .event-item:first-child .event-header { border-top: none; }
-
-/* Adatta anche la riga inferiore al colore blu nella pagina Hub */
-body.hub-page .event-item:last-child { border-bottom-color: #0000ff; }
-
+body.hub-page .events-list { border-color: #0000ff; }
 body.hub-page .sidebar { border-right-color: #0000ff; }
 
 body.hub-page .menu-arrow { border-right-color: #0000ff; }
@@ -357,7 +331,12 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
     .main-title { font-size: 1.8rem; }
     .events-link { display: none; } 
     
+    /* 👇 GRIGLIA MOBILE CORRETTA: Ritorno a 3 colonne, niente location 👇 */
     .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; }
+    .e-loc { display: none; } /* Tolta la location da mobile! */
+    .e-date { font-size: 0.75rem; font-weight: 800; line-height: 1.2; } 
+    .e-title { font-size: 0.85rem; line-height: 1.15; } 
+    
     .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
     .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
 
@@ -368,10 +347,11 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
     .e-image img { min-height: auto; border-radius: 0; } 
     .buy-tickets { order: 3; margin: 15px 0 0 0; font-size: 1.1rem; font-weight: 800; } 
 
+    /* 👇 MENU ARTISTI MOBILE: Tolta la data 👇 */
     .artist-header { grid-template-columns: 1fr auto; padding: 15px 0; align-items: start; }
+    .a-date { display: none; } /* Tolta la data da mobile! */
     .a-name { font-size: 0.85rem; grid-column: 1 / 2; line-height: 1.15; } 
     .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
-    .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
 
     .hero-quote { min-height: 70vh; }
 
