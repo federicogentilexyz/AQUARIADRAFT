@@ -136,7 +136,7 @@ body.home-page .gallery-link {
     max-height: 98vh !important; 
     width: 100% !important; 
     position: relative !important;
-    flex: 0 0 98vh !important; /* Questo vieta categoricamente al browser di schiacciare le immagini */
+    flex: 0 0 98vh !important; 
     overflow: hidden !important;
 } 
 
@@ -180,8 +180,12 @@ body.home-page .gallery-overlay {
 .a-name { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; }
 .a-category { font-family: var(--font-serif); font-size: 1.1rem; }
 .a-date { font-family: var(--font-serif); font-size: 1.1rem; text-align: right; }
-.a-desc { grid-column: 1 / -1; padding-right: 0; }
+
+/* REGOLE GRID PER LE FOTO DEGLI ARTISTI */
+.a-desc { grid-column: 1 / 3; padding-right: 60px; display: flex; flex-direction: column; }
 .a-desc p { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.3; margin-bottom: 20px; }
+.a-image { grid-column: 3 / 5; display: flex; }
+.a-image img { width: 100%; height: 100%; min-height: 400px; object-fit: cover; display: block; }
 
 /* === TEMA BLU PER HUB EVENTS === */
 body.hub-page .main-title, body.hub-page .e-date, body.hub-page .e-title, body.hub-page .e-loc, body.hub-page .buy-tickets, body.hub-page .event-header::after { color: #0000ff; }
@@ -212,9 +216,8 @@ body.hub-page .buy-tickets:hover, body.hub-page .events-link:hover { color: #000
     margin-left: calc(-1 * var(--sidebar-width) - 15px); 
     margin-right: -15px; 
     
-    /* PREVIENE DEFORMAZIONI */
-    align-self: stretch; /* Si adatta perfettamente ai margini negativi senza creare sfasamenti */
-    flex-shrink: 0; /* Impedisce che il browser lo tagli in verticale */
+    align-self: stretch; 
+    flex-shrink: 0; 
 }
 
 body.home-page .site-footer {
@@ -223,31 +226,12 @@ body.home-page .site-footer {
     margin-top: 0; 
 }
 
-.footer-logo {
-    width: 140px;
-}
+.footer-logo { width: 140px; }
+.footer-logo svg { width: 100%; height: auto; display: block; }
 
-.footer-logo svg {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.footer-col {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-col a {
-    color: #fff;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-    font-weight: 300; 
-}
-
-.footer-col a:hover {
-    opacity: 0.6;
-}
+.footer-col { display: flex; flex-direction: column; }
+.footer-col a { color: #fff; text-decoration: none; transition: opacity 0.2s ease; font-weight: 300; }
+.footer-col a:hover { opacity: 0.6; }
 
 /* ========================================================= */
 /* === MOBILE (Smartphone)                               === */
@@ -300,6 +284,12 @@ body.home-page .site-footer {
     .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
     .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
 
+    /* REGOLE GRID MOBILE PER FOTO ARTISTI */
+    .a-desc { display: contents; }
+    .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
+    .a-image { order: 2; width: 100%; margin-bottom: 0; } 
+    .a-image img { min-height: auto; border-radius: 0; }
+
     /* === RESPONSIVE FIX PER FOOTER MOBILE === */
     .site-footer {
         display: grid; 
@@ -312,20 +302,9 @@ body.home-page .site-footer {
         align-self: stretch;
     }
     
-    body.home-page .site-footer {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .footer-logo {
-        grid-column: 1 / -1; 
-        width: 110px;
-    }
-    
-    .footer-col:nth-child(2) {
-        grid-column: 1 / -1; 
-        margin-bottom: -10px;
-    }
+    body.home-page .site-footer { margin-left: 0; margin-right: 0; }
+    .footer-logo { grid-column: 1 / -1; width: 110px; }
+    .footer-col:nth-child(2) { grid-column: 1 / -1; margin-bottom: -10px; }
     
     .footer-col:last-child {
         grid-column: 1 / -1; 
@@ -341,8 +320,5 @@ body.home-page .site-footer {
         max-height: 45vh !important; 
         flex: none !important; 
     } 
-
-    body.home-page .gallery img { 
-        height: 100% !important; 
-    }
+    body.home-page .gallery img { height: 100% !important; }
 }
