@@ -40,7 +40,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     margin-top: -10px; 
     
     /* COMANDO 2: SU E GIÙ PER LA PAROLA EXHIBITIONS */
-    margin-bottom: 19px; 
+    margin-bottom: 20px; 
 
     /* COMANDO 3: DESTRA E SINISTRA PER IL LOGO */
     margin-left: 12px; 
@@ -78,12 +78,15 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     padding: 40px 15px 0 15px; 
     display: flex; 
     flex-direction: column; 
+    /* MODIFICA: Spingiamo il footer sempre giù garantendo un'altezza minima alla pagina intera */
     min-height: 100vh; 
 }
 
-/* FIX FOOTER SULLE PAGINE CORTE: Lo spinge sempre fuori dalla visuale iniziale */
-.main-content > *:nth-last-child(2) {
-    min-height: 70vh; 
+/* MODIFICA: Rimuoviamo min-height: 70vh da qui per far tornare la riga nera sotto l'ultimo elemento */
+.events-list { 
+    width: 100%; 
+    border-bottom: 1px solid #111; 
+    margin-bottom: 80px; 
 }
 
 .content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; padding-top: 0; }
@@ -103,7 +106,14 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .events-link:hover { text-decoration: underline; }
 
 /* === GALLERY HOME === */
-.gallery { display: flex; flex-direction: column; width: 100%; padding-bottom: 50px; }
+.gallery { 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    padding-bottom: 50px; 
+    /* MODIFICA: Altezza minima fissa per evitare il salto del footer al caricamento */
+    min-height: 100vh; 
+}
 .gallery-link { display: block; width: 100%; position: relative; margin-bottom: 0; }
 .gallery img { width: 100%; height: auto; display: block; border-radius: 8px; object-fit: cover; }
 
@@ -149,7 +159,6 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 body.home-page .main-content { padding: 0 !important; display: block !important; } 
 body.home-page .content-header { display: none !important; } 
 
-/* FIX SALTO DEL FOOTER: Impone altezza fissa mentre le foto caricano */
 body.home-page .gallery { 
     display: flex !important; 
     flex-direction: column !important; 
@@ -184,7 +193,7 @@ body.home-page .gallery-overlay { display: block !important; }
 }
 .hero-quote p { margin-bottom: 0; }
 
-.events-list { width: 100%; border-bottom: 1px solid #111; margin-bottom: 80px; }
+/* REGOLE FISARMONICA */
 .event-item { width: 100%; }
 
 .event-header { display: grid; grid-template-columns: 140px 2fr 1fr 80px; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: start; transition: background-color 0.2s ease; }
