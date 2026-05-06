@@ -81,11 +81,6 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     min-height: 100vh; 
 }
 
-/* FIX FOOTER SULLE PAGINE CORTE: Lo spinge sempre fuori dalla visuale iniziale */
-.main-content > *:nth-last-child(2) {
-    min-height: 70vh; 
-}
-
 .content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; padding-top: 0; }
 
 .main-title { 
@@ -103,7 +98,13 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .events-link:hover { text-decoration: underline; }
 
 /* === GALLERY HOME === */
-.gallery { display: flex; flex-direction: column; width: 100%; padding-bottom: 50px; }
+.gallery { 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    padding-bottom: 50px; 
+    min-height: 100vh; 
+}
 .gallery-link { display: block; width: 100%; position: relative; margin-bottom: 0; }
 .gallery img { width: 100%; height: auto; display: block; border-radius: 8px; object-fit: cover; }
 
@@ -149,7 +150,6 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 body.home-page .main-content { padding: 0 !important; display: block !important; } 
 body.home-page .content-header { display: none !important; } 
 
-/* FIX SALTO DEL FOOTER: Impone altezza fissa mentre le foto caricano */
 body.home-page .gallery { 
     display: flex !important; 
     flex-direction: column !important; 
@@ -172,7 +172,7 @@ body.home-page .gallery-link {
 body.home-page .gallery img { display: block !important; border-radius: 0 !important; height: 100% !important; width: 100% !important; object-fit: cover !important; } 
 body.home-page .gallery-overlay { display: block !important; }
 
-/* === ALTRE PAGINE E FISARMONICA === */
+/* === ALTRE PAGINE === */
 .about-text { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.1; color: var(--text-color); margin-bottom: 80px; }
 
 .hero-quote {
@@ -184,10 +184,38 @@ body.home-page .gallery-overlay { display: block !important; }
 }
 .hero-quote p { margin-bottom: 0; }
 
-/* REGOLE FISARMONICA */
+
+/* ========================================================= */
+/* === REGOLE FISARMONICA: RIGHE E PROTEZIONE FOOTER     === */
+/* ========================================================= */
+
+.events-list { 
+    width: 100%; 
+    margin-bottom: 80px; 
+    /* SALVA ORARI: Mantiene invisibilmente alta la lista spingendo in giù il footer */
+    min-height: 70vh; 
+    /* NIENTE border-bottom qui, altrimenti scappa via! */
+}
+
 .event-item { width: 100%; }
 
-.event-header { display: grid; grid-template-columns: 140px 2fr 1fr 80px; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: start; transition: background-color 0.2s ease; }
+/* La riga di chiusura viene agganciata SOLO ed ESCLUSIVAMENTE all'ultimo elemento.
+   Così resta perfettamente incollata al testo, ignorando lo spazio invisibile sottostante! */
+.event-item:last-child {
+    border-bottom: 1px solid #111;
+}
+
+.event-header { 
+    display: grid; 
+    grid-template-columns: 140px 2fr 1fr 80px; 
+    padding: 20px 0; 
+    cursor: pointer; 
+    /* Solo bordo superiore, spessore rigorosamente 1px */
+    border-top: 1px solid #111; 
+    align-items: start; 
+    transition: background-color 0.2s ease; 
+}
+
 .event-item:first-child .event-header { border-top: none; padding-top: 0; }
 .event-header:hover { background-color: rgba(0,0,0,0.03); }
 
@@ -204,7 +232,16 @@ body.home-page .gallery-overlay { display: block !important; }
 .e-image img { width: 100%; height: 100%; min-height: 400px; object-fit: cover; display: block; }
 
 /* === ARTISTS MENU === */
-.artist-header { display: grid; grid-template-columns: 2fr 2fr 1fr; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: center; transition: background-color 0.2s ease; }
+.artist-header { 
+    display: grid; 
+    grid-template-columns: 2fr 2fr 1fr; 
+    padding: 20px 0; 
+    cursor: pointer; 
+    /* Solo bordo superiore, spessore rigorosamente 1px */
+    border-top: 1px solid #111; 
+    align-items: center; 
+    transition: background-color 0.2s ease; 
+}
 .event-item:first-child .artist-header { border-top: none; padding-top: 0; }
 .artist-header:hover { background-color: rgba(0,0,0,0.03); }
 .a-name { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; }
@@ -239,9 +276,12 @@ body.hub-page .mobile-menu-title {
     color: #0000ff;
 }
 
-body.hub-page .events-list, 
-body.hub-page .event-header { border-color: #0000ff; }
+body.hub-page .event-header { border-color: #0000ff; } 
 body.hub-page .event-item:first-child .event-header { border-top: none; }
+
+/* Adatta anche la riga inferiore al colore blu nella pagina Hub */
+body.hub-page .event-item:last-child { border-bottom-color: #0000ff; }
+
 body.hub-page .sidebar { border-right-color: #0000ff; }
 
 body.hub-page .menu-arrow { border-right-color: #0000ff; }
@@ -287,16 +327,15 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
 @media (max-width: 768px) {
     .mobile-header { display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--bg-color); z-index: 1002; padding: 0 20px; }
     
-    /* MODIFICA: Logo ingrandito per pareggiare l'hamburger menu */
-    .logo-mobile { width: 130px; display: block; height: 65px; align-items: center; /* Centra l'immagine nel box del link */
-        
-        /* 👇 REGOLAZIONE FINE LOGO MOBILE 👇 */
-        /* Se il logo ti sembra ancora basso rispetto all'hamburger, 
-           rendi questo numero più negativo (es: -4px). 
-           Se ti sembra troppo alto, portalo a 0px o a un numero positivo. */
-        margin-top: -3px;} 
+    .logo-mobile { 
+        width: 130px; 
+        display: block; 
+        height: 65px; 
+        display: flex;
+        align-items: center; 
+        margin-top: -3px;
+    } 
     .logo-mobile img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: left center; }
-    
     
     .sidebar { transform: translateX(-100%); width: 100%; padding: 90px 20px 30px 20px; transition: 0.3s ease; border-right: none; z-index: 1001; }
     .sidebar.open { transform: translateX(0); }
@@ -318,13 +357,7 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
     .main-title { font-size: 1.8rem; }
     .events-link { display: none; } 
     
-    .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; align-items: start; }
-    .event-item:first-child .event-header, .event-item:first-child .artist-header { padding-top: 0; }
-    
-    .e-date { font-size: 0.75rem; font-weight: 800; line-height: 1.2; } 
-    .e-title { font-size: 0.85rem; line-height: 1.15; } 
-    .e-loc { display: none; } 
-    
+    .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; }
     .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
     .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
 
@@ -339,11 +372,6 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
     .a-name { font-size: 0.85rem; grid-column: 1 / 2; line-height: 1.15; } 
     .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
     .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
-
-    .a-desc { display: contents; }
-    .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
-    .a-image { order: 2; width: 100%; margin-bottom: 0; } 
-    .a-image img { min-height: auto; border-radius: 0; }
 
     .hero-quote { min-height: 70vh; }
 
