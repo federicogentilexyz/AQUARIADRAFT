@@ -2,7 +2,8 @@
 :root {
     --bg-color: #f0f0f0; 
     --text-color: #111;
-    --sidebar-width: 140px; 
+    /* 👇 MODIFICA EQUILIBRIO: Menù allargato a 180px per bilanciare il footer 👇 */
+    --sidebar-width: 180px; 
     --font-serif: 'Ledger', serif;
     --font-sans: 'Inter', sans-serif;
 }
@@ -35,8 +36,14 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     width: 100%; 
     max-width: 80px; 
     flex-shrink: 0;
+    
+    /* COMANDO 1: SU E GIÙ PER IL LOGO */
     margin-top: -10px; 
+    
+    /* COMANDO 2: SU E GIÙ PER LA PAROLA EXHIBITIONS */
     margin-bottom: 19px; 
+
+    /* COMANDO 3: DESTRA E SINISTRA PER IL LOGO */
     margin-left: 12px; 
 }
 
@@ -73,6 +80,11 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     display: flex; 
     flex-direction: column; 
     min-height: 100vh; 
+}
+
+/* FIX FOOTER SULLE PAGINE CORTE: Lo spinge sempre fuori dalla visuale iniziale */
+.main-content > *:nth-last-child(2) {
+    min-height: 70vh; 
 }
 
 .content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; padding-top: 0; }
@@ -177,9 +189,8 @@ body.home-page .gallery-overlay { display: block !important; }
 /* ========================================================= */
 .events-list { 
     width: 100%; 
-    /* La magia è qui: il margine gigante spinge il footer giù senza allungare la lista! */
     margin-bottom: 40vh; 
-    border-bottom: 1px solid #111; /* La riga rimane incollata esattamente sotto l'ultima voce */
+    border-bottom: 1px solid #111; 
 }
 
 .event-item { width: 100%; }
@@ -189,7 +200,7 @@ body.home-page .gallery-overlay { display: block !important; }
     grid-template-columns: 140px 2fr 1fr 80px; 
     padding: 20px 0; 
     cursor: pointer; 
-    border-top: 1px solid #111; /* Righe di esattamente 1px */
+    border-top: 1px solid #111; 
     align-items: start; 
     transition: background-color 0.2s ease; 
 }
@@ -273,7 +284,10 @@ body.hub-page .logo-mobile img {
 /* === FOOTER NERO (Desktop & Mobile)                    === */
 /* ========================================================= */
 .site-footer {
-    background-color: #000; color: #fff; padding: 35px 40px; display: flex; justify-content: space-between; align-items: center; 
+    background-color: #000; color: #fff; 
+    /* 👇 MODIFICA EQUILIBRIO: Footer leggermente alleggerito in altezza (da 35 a 25px) 👇 */
+    padding: 25px 40px; 
+    display: flex; justify-content: space-between; align-items: center; 
     font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.3; font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
     position: relative; z-index: 105; margin-top: auto; margin-left: calc(-1 * var(--sidebar-width) - 15px); margin-right: -15px; 
     align-self: stretch; flex-shrink: 0; 
@@ -331,26 +345,42 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
     .main-title { font-size: 1.8rem; }
     .events-link { display: none; } 
     
-    /* 👇 GRIGLIA MOBILE CORRETTA: Ritorno a 3 colonne, niente location 👇 */
+    /* 👇 GRIGLIA MOBILE EVENTI & ARTISTI CON ANIMAZIONE + e - 👇 */
     .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; }
-    .e-loc { display: none; } /* Tolta la location da mobile! */
+    .artist-header { grid-template-columns: 1fr 20px; gap: 10px; padding: 15px 0; align-items: start; }
+    
+    .e-loc { display: none; } 
     .e-date { font-size: 0.75rem; font-weight: 800; line-height: 1.2; } 
     .e-title { font-size: 0.85rem; line-height: 1.15; } 
     
-    .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
-    .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
+    /* Simbolo + per entrambe le liste */
+    .event-header::after, .artist-header::after { 
+        content: '+'; 
+        font-size: 1.3rem; 
+        font-weight: 300; 
+        font-family: var(--font-sans); 
+        justify-self: end; 
+        align-self: center; 
+        line-height: 0; 
+    }
+    
+    /* Centra verticalmente il + nel blocco Artisti */
+    .artist-header::after { grid-column: 2 / 3; grid-row: 1 / 3; }
+    
+    /* Simbolo - all'apertura per entrambe le liste */
+    .event-item.open .event-header::after, .event-item.open .artist-header::after { 
+        content: '−'; 
+        font-size: 1.6rem; 
+    }
 
     .event-item.open .event-details { display: flex; flex-direction: column; padding: 10px 0 20px 0; }
-    /* 👇 FIX: Resetta i margini di Artists e Exhibitions per farli allargare fino in fondo 👇 */
-.e-desc, .a-desc { display: contents; }
-.e-desc p, .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
-.e-image, .a-image { order: 2; width: 100%; margin-bottom: 0; } 
-.e-image img, .a-image img { min-height: auto; border-radius: 0; }
+    .e-desc, .a-desc { display: contents; }
+    .e-desc p, .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
+    .e-image, .a-image { order: 2; width: 100%; margin-bottom: 0; } 
+    .e-image img, .a-image img { min-height: auto; border-radius: 0; }
     .buy-tickets { order: 3; margin: 15px 0 0 0; font-size: 1.1rem; font-weight: 800; } 
 
-    /* 👇 MENU ARTISTI MOBILE: Tolta la data 👇 */
-    .artist-header { grid-template-columns: 1fr auto; padding: 15px 0; align-items: start; }
-    .a-date { display: none; } /* Tolta la data da mobile! */
+    .a-date { display: none; } 
     .a-name { font-size: 0.85rem; grid-column: 1 / 2; line-height: 1.15; } 
     .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
 
