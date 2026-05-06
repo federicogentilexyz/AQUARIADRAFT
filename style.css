@@ -82,8 +82,8 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     left: 50%; 
     transform: translate(-50%, -50%); 
     z-index: 10; 
-    text-align: center; /* Centra perfettamente tutto il testo */
-    width: 90%; /* Impedisce che il testo tocchi i bordi dello schermo su mobile */
+    text-align: center; 
+    width: 90%; 
 }
 
 .g-date { 
@@ -93,8 +93,8 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     font-size: 0.8rem; 
     color: #111; 
     white-space: nowrap;
-    display: table; /* Crea un blocchetto perfetto solo per la data */
-    margin: 0 auto; /* Centra la data ed elimina lo spazio con il blocco inferiore */
+    display: table; 
+    margin: 0 auto; 
 }
 
 .g-artist { 
@@ -106,7 +106,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     display: inline; 
     background-color: white; 
     padding: 4px 8px; 
-    line-height: 1.6; /* Crea respiro verticale tra le righe spezzate */
+    line-height: 1.6; 
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone; 
 }
@@ -114,20 +114,9 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 /* ========================================================= */
 /* === OVERRIDE HOME PAGE FULL SCREEN (Desktop & Mobile) === */
 /* ========================================================= */
-body.home-page .main-content { 
-    padding: 0 !important; 
-    display: block !important; 
-} 
-body.home-page .content-header { 
-    display: none !important; 
-} 
-
-body.home-page .gallery { 
-    display: flex !important; 
-    flex-direction: column !important;
-    padding-bottom: 0 !important; 
-    width: 100% !important;
-} 
+body.home-page .main-content { padding: 0 !important; display: block !important; } 
+body.home-page .content-header { display: none !important; } 
+body.home-page .gallery { display: flex !important; flex-direction: column !important; padding-bottom: 0 !important; width: 100% !important; } 
 
 body.home-page .gallery-link { 
     display: block !important; 
@@ -140,20 +129,25 @@ body.home-page .gallery-link {
     overflow: hidden !important;
 } 
 
-body.home-page .gallery img { 
-    display: block !important;
-    border-radius: 0 !important; 
-    height: 100% !important; 
-    width: 100% !important; 
-    object-fit: cover !important; 
-} 
-
-body.home-page .gallery-overlay { 
-    display: block !important; 
-}
+body.home-page .gallery img { display: block !important; border-radius: 0 !important; height: 100% !important; width: 100% !important; object-fit: cover !important; } 
+body.home-page .gallery-overlay { display: block !important; }
 
 /* === ALTRE PAGINE E FISARMONICA === */
 .about-text { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.1; color: var(--text-color); margin-bottom: 80px; }
+
+/* === BLOCCO CITAZIONE ABOUT US === */
+.hero-quote {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente il testo */
+    min-height: 75vh; /* Spinge il resto del contenuto fuori dallo schermo iniziale */
+    padding-top: 2vh; /* Respiro dal titolo */
+}
+
+.hero-quote p {
+    margin-bottom: 0; 
+}
+
 .events-list { width: 100%; border-bottom: 1px solid #111; margin-bottom: 80px; }
 .event-item { width: 100%; }
 
@@ -181,7 +175,6 @@ body.home-page .gallery-overlay {
 .a-category { font-family: var(--font-serif); font-size: 1.1rem; }
 .a-date { font-family: var(--font-serif); font-size: 1.1rem; text-align: right; }
 
-/* REGOLE GRID PER LE FOTO DEGLI ARTISTI */
 .a-desc { grid-column: 1 / 3; padding-right: 60px; display: flex; flex-direction: column; }
 .a-desc p { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.3; margin-bottom: 20px; }
 .a-image { grid-column: 3 / 5; display: flex; }
@@ -197,38 +190,15 @@ body.hub-page .buy-tickets:hover, body.hub-page .events-link:hover { color: #000
 /* === FOOTER NERO (Desktop & Mobile)                    === */
 /* ========================================================= */
 .site-footer {
-    background-color: #000;
-    color: #fff;
-    padding: 35px 40px; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    line-height: 1.3; 
-    font-weight: 300; 
-    -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale;
-    
-    position: relative;
-    z-index: 105; 
-    margin-top: auto; 
-    margin-left: calc(-1 * var(--sidebar-width) - 15px); 
-    margin-right: -15px; 
-    
-    align-self: stretch; 
-    flex-shrink: 0; 
+    background-color: #000; color: #fff; padding: 35px 40px; display: flex; justify-content: space-between; align-items: center; 
+    font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.3; font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    position: relative; z-index: 105; margin-top: auto; margin-left: calc(-1 * var(--sidebar-width) - 15px); margin-right: -15px; 
+    align-self: stretch; flex-shrink: 0; 
 }
 
-body.home-page .site-footer {
-    margin-left: calc(-1 * var(--sidebar-width));
-    margin-right: 0;
-    margin-top: 0; 
-}
-
+body.home-page .site-footer { margin-left: calc(-1 * var(--sidebar-width)); margin-right: 0; margin-top: 0; }
 .footer-logo { width: 140px; }
 .footer-logo svg { width: 100%; height: auto; display: block; }
-
 .footer-col { display: flex; flex-direction: column; }
 .footer-col a { color: #fff; text-decoration: none; transition: opacity 0.2s ease; font-weight: 300; }
 .footer-col a:hover { opacity: 0.6; }
@@ -252,7 +222,6 @@ body.home-page .site-footer {
 
     .nav-menu ul { border-top: none; } 
     .nav-menu li { margin-bottom: 0; border-bottom: 1px solid #111; }
-    
     .nav-menu a { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; padding: 15px 0; display: block; }
 
     .main-content { margin-left: 0; padding: 100px 15px 0 15px; }
@@ -284,41 +253,24 @@ body.home-page .site-footer {
     .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
     .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
 
-    /* REGOLE GRID MOBILE PER FOTO ARTISTI */
     .a-desc { display: contents; }
     .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
     .a-image { order: 2; width: 100%; margin-bottom: 0; } 
     .a-image img { min-height: auto; border-radius: 0; }
 
-    /* === RESPONSIVE FIX PER FOOTER MOBILE === */
-    .site-footer {
-        display: grid; 
-        grid-template-columns: 1fr 1fr; 
-        gap: 30px 15px; 
-        padding: 40px 20px; 
-        margin-left: -15px;
-        margin-right: -15px;
-        margin-top: auto; 
-        align-self: stretch;
+    /* Fix altezza citazione About Us su Mobile */
+    .hero-quote {
+        min-height: 70vh; 
     }
-    
+
+    /* === RESPONSIVE FIX PER FOOTER MOBILE === */
+    .site-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 15px; padding: 40px 20px; margin-left: -15px; margin-right: -15px; margin-top: auto; align-self: stretch; }
     body.home-page .site-footer { margin-left: 0; margin-right: 0; }
     .footer-logo { grid-column: 1 / -1; width: 110px; }
     .footer-col:nth-child(2) { grid-column: 1 / -1; margin-bottom: -10px; }
-    
-    .footer-col:last-child {
-        grid-column: 1 / -1; 
-        margin-top: 10px;
-        text-wrap: pretty; 
-        font-size: 0.82rem; 
-    }
+    .footer-col:last-child { grid-column: 1 / -1; margin-top: 10px; text-wrap: pretty; font-size: 0.82rem; }
 
     /* === RIPRISTINO ALTEZZA IMMAGINI HOME SU MOBILE === */
-    body.home-page .gallery-link { 
-        height: 45vh !important; 
-        min-height: 45vh !important; 
-        max-height: 45vh !important; 
-        flex: none !important; 
-    } 
+    body.home-page .gallery-link { height: 45vh !important; min-height: 45vh !important; max-height: 45vh !important; flex: none !important; } 
     body.home-page .gallery img { height: 100% !important; }
 }
