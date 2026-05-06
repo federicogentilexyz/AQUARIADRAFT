@@ -196,24 +196,25 @@ document.addEventListener('DOMContentLoaded', () => {
                         eventsContainer.appendChild(article);
                     }
 
-                    // FUNZIONE MAGICA AGGIORNATA: 
-                    // Aspetta che i dati esistano, apre la fisarmonica, aspetta che l'animazione parta e poi scrolla!
+                    // FUNZIONE MAGICA CORAZZATA (Anti-ritardo da server reale)
                     if (window.location.hash) {
-                        setTimeout(() => {
-                            // Prende l'ID pulito rimuovendo il #
-                            const hashId = window.location.hash.substring(1); 
-                            const targetEvent = document.getElementById(hashId);
-                            
-                            if (targetEvent) {
-                                targetEvent.classList.add('open'); // Apre l'evento
+                        // requestAnimationFrame assicura che l'HTML sia stato fisicamente disegnato sullo schermo
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                const hashId = window.location.hash.substring(1); 
+                                const targetEvent = document.getElementById(hashId);
                                 
-                                // Aspetta un millisecondo per far aprire l'evento prima di calcolare l'altezza
-                                setTimeout(() => {
-                                    const y = targetEvent.getBoundingClientRect().top + window.scrollY - 120;
-                                    window.scrollTo({top: y, behavior: 'smooth'});
-                                }, 150);
-                            }
-                        }, 500); // Dà tempo alla pagina di caricare tutto
+                                if (targetEvent) {
+                                    targetEvent.classList.add('open'); 
+                                    
+                                    setTimeout(() => {
+                                        // Scrolla dolcemente togliendo lo spazio per l'header
+                                        const y = targetEvent.getBoundingClientRect().top + window.scrollY - 100;
+                                        window.scrollTo({top: y, behavior: 'smooth'});
+                                    }, 250); // Diamogli tempo di aprire la tendina
+                                }
+                            }, 150); // Diamogli tempo di leggere i dati da Google Sheets
+                        });
                     }
                 })
                 .catch(err => {
