@@ -94,7 +94,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     color: #111; 
     white-space: nowrap;
     display: table; /* Crea un blocchetto perfetto solo per la data */
-    margin: 0 auto 0px auto; /* Centra la data e la distanzia dal nome artista */
+    margin: 0 auto; /* Centra la data ed elimina lo spazio con il blocco inferiore */
 }
 
 .g-artist { 
@@ -131,12 +131,12 @@ body.home-page .gallery {
 
 body.home-page .gallery-link { 
     display: block !important; 
-    height: 85vh !important; 
-    min-height: 85vh !important; 
-    max-height: 85vh !important; 
+    height: 98vh !important; 
+    min-height: 98vh !important; 
+    max-height: 98vh !important; 
     width: 100% !important; 
     position: relative !important;
-    flex: 0 0 85vh !important; /* Questo vieta categoricamente al browser di schiacciare le immagini */
+    flex: 0 0 98vh !important; /* Questo vieta categoricamente al browser di schiacciare le immagini */
     overflow: hidden !important;
 } 
 
