@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const imageUrl = getDirectImageUrl(data[0]);
                     const targetPage = (data[1] || '#').trim();
                     
-                    // AGGIUNTO FIX A CAPO PER LA HOME
                     const dateText = (data[2] || '').trim().replace(/\n/g, '<br>');
                     const artistText = (data[3] || '').trim().replace(/\n/g, '<br>');
 
@@ -162,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         const data = rows[i];
                         if (!data[0]) continue; 
 
-                        // TUTTI I CAMPI ORA SUPPORTANO GLI A CAPO
                         const eDate = data[0] ? data[0].replace(/\n/g, '<br>') : '';
                         const eTitleName = data[1] ? data[1].toUpperCase().replace(/\n/g, '<br>') : '';
                         const eTitleSub = data[2] ? data[2].replace(/\n/g, '<br>') : '';
@@ -198,15 +196,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         eventsContainer.appendChild(article);
                     }
 
+                    // FUNZIONE MAGICA AGGIORNATA: 
+                    // Aspetta che i dati esistano, apre la fisarmonica, aspetta che l'animazione parta e poi scrolla!
                     if (window.location.hash) {
                         setTimeout(() => {
-                            const targetEvent = document.querySelector(window.location.hash);
+                            // Prende l'ID pulito rimuovendo il #
+                            const hashId = window.location.hash.substring(1); 
+                            const targetEvent = document.getElementById(hashId);
+                            
                             if (targetEvent) {
-                                targetEvent.classList.add('open');
-                                const y = targetEvent.getBoundingClientRect().top + window.scrollY - 120;
-                                window.scrollTo({top: y, behavior: 'smooth'});
+                                targetEvent.classList.add('open'); // Apre l'evento
+                                
+                                // Aspetta un millisecondo per far aprire l'evento prima di calcolare l'altezza
+                                setTimeout(() => {
+                                    const y = targetEvent.getBoundingClientRect().top + window.scrollY - 120;
+                                    window.scrollTo({top: y, behavior: 'smooth'});
+                                }, 150);
                             }
-                        }, 300); 
+                        }, 500); // Dà tempo alla pagina di caricare tutto
                     }
                 })
                 .catch(err => {
@@ -233,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = rows[i];
                     if (!data[0]) continue; 
 
-                    // TUTTI I CAMPI ARTISTI ORA SUPPORTANO GLI A CAPO
                     const aName = data[0] ? data[0].replace(/\n/g, '<br>') : '';
                     const aCat = data[1] ? data[1].replace(/\n/g, '<br>') : '';
                     const aDate = data[2] ? data[2].replace(/\n/g, '<br>') : '';
