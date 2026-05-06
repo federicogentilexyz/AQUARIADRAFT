@@ -74,31 +74,83 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .gallery { display: flex; flex-direction: column; width: 100%; padding-bottom: 50px; }
 .gallery-link { display: block; width: 100%; position: relative; margin-bottom: 0; }
 .gallery img { width: 100%; height: auto; display: block; border-radius: 8px; object-fit: cover; }
-.gallery-overlay { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; flex-direction: column; align-items: center; gap: 0; }
-.g-date { background-color: white; padding: 2px 6px; font-family: var(--font-sans); font-size: 0.8rem; color: #111; white-space: nowrap; }
-.g-artist { background-color: white; padding: 2px 6px; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 400; text-transform: uppercase; color: #111; white-space: nowrap; }
+
+.gallery-overlay { 
+    display: none; 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 10; 
+    text-align: center; /* Centra perfettamente tutto il testo */
+    width: 90%; /* Impedisce che il testo tocchi i bordi dello schermo su mobile */
+}
+
+.g-date { 
+    background-color: white; 
+    padding: 3px 8px; 
+    font-family: var(--font-sans); 
+    font-size: 0.8rem; 
+    color: #111; 
+    white-space: nowrap;
+    display: table; /* Crea un blocchetto perfetto solo per la data */
+    margin: 0 auto 0px auto; /* Centra la data e la distanzia dal nome artista */
+}
+
+.g-artist { 
+    font-family: var(--font-sans); 
+    font-size: 0.9rem; 
+    font-weight: 400; 
+    text-transform: uppercase; 
+    color: #111; 
+    display: inline; 
+    background-color: white; 
+    padding: 4px 8px; 
+    line-height: 1.6; /* Crea respiro verticale tra le righe spezzate */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone; 
+}
 
 /* ========================================================= */
 /* === OVERRIDE HOME PAGE FULL SCREEN (Desktop & Mobile) === */
 /* ========================================================= */
-body.home-page .main-content { padding: 0; } 
-body.home-page .gallery { padding-bottom: 0; } 
-body.home-page .content-header { display: none; } 
+body.home-page .main-content { 
+    padding: 0 !important; 
+    display: block !important; 
+} 
+body.home-page .content-header { 
+    display: none !important; 
+} 
 
-/* Limitiamo l'altezza all'85% dello schermo per far intuire lo scroll */
+body.home-page .gallery { 
+    display: flex !important; 
+    flex-direction: column !important;
+    padding-bottom: 0 !important; 
+    width: 100% !important;
+} 
+
 body.home-page .gallery-link { 
-    height: 98vh; 
-    display: block; 
-    width: 100%; 
-} 
-body.home-page .gallery img { 
-    border-radius: 0; 
-    height: 100%; 
-    width: 100%; 
-    object-fit: cover; 
+    display: block !important; 
+    height: 85vh !important; 
+    min-height: 85vh !important; 
+    max-height: 85vh !important; 
+    width: 100% !important; 
+    position: relative !important;
+    flex: 0 0 85vh !important; /* Questo vieta categoricamente al browser di schiacciare le immagini */
+    overflow: hidden !important;
 } 
 
-body.home-page .gallery-overlay { display: flex; }
+body.home-page .gallery img { 
+    display: block !important;
+    border-radius: 0 !important; 
+    height: 100% !important; 
+    width: 100% !important; 
+    object-fit: cover !important; 
+} 
+
+body.home-page .gallery-overlay { 
+    display: block !important; 
+}
 
 /* === ALTRE PAGINE E FISARMONICA === */
 .about-text { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.1; color: var(--text-color); margin-bottom: 80px; }
@@ -220,7 +272,7 @@ body.home-page .site-footer {
     .nav-menu a { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; padding: 15px 0; display: block; }
 
     .main-content { margin-left: 0; padding: 100px 15px 0 15px; }
-    body.home-page .main-content { padding: 70px 0 0 0; }
+    body.home-page .main-content { padding: 70px 0 0 0 !important; }
     
     .content-header { flex-direction: column; margin-bottom: 45px; }
     .main-title { font-size: 1.8rem; }
@@ -277,7 +329,7 @@ body.home-page .site-footer {
     }
     
     /* Il 3° (Artists) e il 4° (Art events) prendono in automatico 1fr a testa, affiancandosi! */
-.footer-col:last-child {
+    .footer-col:last-child {
         grid-column: 1 / -1; /* L'indirizzo torna a occupare tutto lo spazio in basso */
         margin-top: 10px;
         
