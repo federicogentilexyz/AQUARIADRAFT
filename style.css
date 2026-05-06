@@ -78,122 +78,15 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     padding: 40px 15px 0 15px; 
     display: flex; 
     flex-direction: column; 
-    /* MODIFICA: Spingiamo il footer sempre giù garantendo un'altezza minima alla pagina intera */
     min-height: 100vh; 
 }
 
-/* MODIFICA: Rimuoviamo min-height: 70vh da qui per far tornare la riga nera sotto l'ultimo elemento */
+/* === FISARMONICA (Exhibitions, Events, Artists) === */
 .events-list { 
     width: 100%; 
     border-bottom: 1px solid #111; 
     margin-bottom: 80px; 
 }
-
-.content-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; padding-top: 0; }
-
-.main-title { 
-    font-family: var(--font-serif); 
-    font-size: 4rem; 
-    line-height: 0.8; 
-    margin-bottom: 0; 
-    letter-spacing: -0.02em; 
-    font-weight: 300; 
-    -webkit-font-smoothing: antialiased; 
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.events-link { font-family: var(--font-sans); font-size: 1.1rem; color: var(--text-color); text-decoration: none; margin-top: 5px; }
-.events-link:hover { text-decoration: underline; }
-
-/* === GALLERY HOME === */
-.gallery { 
-    display: flex; 
-    flex-direction: column; 
-    width: 100%; 
-    padding-bottom: 50px; 
-    /* MODIFICA: Altezza minima fissa per evitare il salto del footer al caricamento */
-    min-height: 100vh; 
-}
-.gallery-link { display: block; width: 100%; position: relative; margin-bottom: 0; }
-.gallery img { width: 100%; height: auto; display: block; border-radius: 8px; object-fit: cover; }
-
-.gallery-overlay { 
-    display: none; 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    z-index: 10; 
-    text-align: center; 
-    width: 90%; 
-}
-
-.g-date { 
-    background-color: white; 
-    padding: 3px 8px; 
-    font-family: var(--font-sans); 
-    font-size: 0.8rem; 
-    color: #111; 
-    white-space: nowrap;
-    display: table; 
-    margin: 0 auto; 
-}
-
-.g-artist { 
-    font-family: var(--font-sans); 
-    font-size: 0.9rem; 
-    font-weight: 400; 
-    text-transform: uppercase; 
-    color: #111; 
-    display: inline; 
-    background-color: white; 
-    padding: 4px 8px; 
-    line-height: 1.6; 
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone; 
-}
-
-/* ========================================================= */
-/* === OVERRIDE HOME PAGE FULL SCREEN (Desktop & Mobile) === */
-/* ========================================================= */
-body.home-page .main-content { padding: 0 !important; display: block !important; } 
-body.home-page .content-header { display: none !important; } 
-
-body.home-page .gallery { 
-    display: flex !important; 
-    flex-direction: column !important; 
-    padding-bottom: 0 !important; 
-    width: 100% !important; 
-    min-height: 100vh !important; 
-} 
-
-body.home-page .gallery-link { 
-    display: block !important; 
-    height: 98vh !important; 
-    min-height: 98vh !important; 
-    max-height: 98vh !important; 
-    width: 100% !important; 
-    position: relative !important;
-    flex: 0 0 98vh !important; 
-    overflow: hidden !important;
-} 
-
-body.home-page .gallery img { display: block !important; border-radius: 0 !important; height: 100% !important; width: 100% !important; object-fit: cover !important; } 
-body.home-page .gallery-overlay { display: block !important; }
-
-/* === ALTRE PAGINE E FISARMONICA === */
-.about-text { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.1; color: var(--text-color); margin-bottom: 80px; }
-
-.hero-quote {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 75vh; 
-    padding-top: 2vh; 
-}
-.hero-quote p { margin-bottom: 0; }
-
-/* REGOLE FISARMONICA */
 .event-item { width: 100%; }
 
 .event-header { display: grid; grid-template-columns: 140px 2fr 1fr 80px; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: start; transition: background-color 0.2s ease; }
@@ -212,10 +105,9 @@ body.home-page .gallery-overlay { display: block !important; }
 .e-image { grid-column: 3 / 5; display: flex; }
 .e-image img { width: 100%; height: 100%; min-height: 400px; object-fit: cover; display: block; }
 
-/* === ARTISTS MENU === */
+/* === ARTISTS HEADER === */
 .artist-header { display: grid; grid-template-columns: 2fr 2fr 1fr; padding: 20px 0; cursor: pointer; border-top: 1px solid #111; align-items: center; transition: background-color 0.2s ease; }
 .event-item:first-child .artist-header { border-top: none; padding-top: 0; }
-.artist-header:hover { background-color: rgba(0,0,0,0.03); }
 .a-name { font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600; }
 .a-category { font-family: var(--font-serif); font-size: 1.1rem; }
 .a-date { font-family: var(--font-serif); font-size: 1.1rem; text-align: right; }
@@ -228,67 +120,46 @@ body.home-page .gallery-overlay { display: block !important; }
 /* ========================================================= */
 /* === TEMA BLU PER HUB EVENTS                           === */
 /* ========================================================= */
-body.hub-page,
-body.hub-page .main-title, 
-body.hub-page .e-date, 
-body.hub-page .e-title, 
-body.hub-page .e-loc, 
-body.hub-page .e-desc p,
-body.hub-page .buy-tickets, 
-body.hub-page .events-link,
-body.hub-page .event-header::after { 
-    color: #0000ff; 
-}
-
-body.hub-page .nav-menu a,
-body.hub-page .nav-menu a:hover,
-body.hub-page .nav-menu a.active,
-body.hub-page .hours,
-body.hub-page .mobile-menu-title {
-    color: #0000ff;
-}
-
-body.hub-page .events-list, 
-body.hub-page .event-header { border-color: #0000ff; }
-body.hub-page .event-item:first-child .event-header { border-top: none; }
+body.hub-page, body.hub-page .main-title, body.hub-page .e-date, body.hub-page .e-title, body.hub-page .e-loc, body.hub-page .e-desc p, body.hub-page .buy-tickets, body.hub-page .events-link, body.hub-page .event-header::after { color: #0000ff; }
+body.hub-page .nav-menu a, body.hub-page .nav-menu a:hover, body.hub-page .nav-menu a.active, body.hub-page .hours, body.hub-page .mobile-menu-title { color: #0000ff; }
+body.hub-page .events-list, body.hub-page .event-header { border-color: #0000ff; }
 body.hub-page .sidebar { border-right-color: #0000ff; }
-
 body.hub-page .menu-arrow { border-right-color: #0000ff; }
 body.hub-page .hamburger-menu span { background-color: #0000ff; }
-
-body.hub-page .buy-tickets:hover, 
-body.hub-page .events-link:hover { color: #0000aa; }
-
-body.hub-page .desktop-logo img, 
-body.hub-page .logo-mobile img {
-    filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(238deg) brightness(104%) contrast(148%);
-}
+body.hub-page .desktop-logo img, body.hub-page .logo-mobile img { filter: invert(16%) sepia(99%) saturate(7404%) hue-rotate(238deg) brightness(104%) contrast(148%); }
 
 /* ========================================================= */
-/* === FOOTER NERO (Desktop & Mobile)                    === */
+/* === FOOTER NERO                                       === */
 /* ========================================================= */
 .site-footer {
     background-color: #000; color: #fff; padding: 35px 40px; display: flex; justify-content: space-between; align-items: center; 
-    font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.3; font-weight: 300; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    position: relative; z-index: 105; margin-top: auto; margin-left: calc(-1 * var(--sidebar-width) - 15px); margin-right: -15px; 
+    font-family: var(--font-sans); font-size: 0.9rem; line-height: 1.3; font-weight: 300; 
+    position: relative; z-index: 105; 
+    margin-top: auto; 
+    margin-left: calc(-1 * var(--sidebar-width) - 15px); margin-right: -15px; 
     align-self: stretch; flex-shrink: 0; 
 }
-
-body.home-page .site-footer { margin-left: calc(-1 * var(--sidebar-width)); margin-right: 0; margin-top: 0; }
 .footer-logo { width: 140px; display: block; }
 .footer-logo img { width: 100%; height: auto; display: block; object-fit: contain; }
-
 .invert-logo { filter: brightness(0) invert(1); }
-
 .footer-col { display: flex; flex-direction: column; }
 .footer-col a { color: #fff; text-decoration: none; transition: opacity 0.2s ease; font-weight: 300; display: inline-block; }
 .footer-col a:hover { opacity: 0.6; }
 
-/* === PROTEZIONE FOOTER HUB PAGE === */
-body.hub-page .site-footer, 
-body.hub-page .site-footer .footer-col,
-body.hub-page .site-footer a { color: #fff !important; }
+/* Protezione footer hub page */
+body.hub-page .site-footer, body.hub-page .site-footer .footer-col, body.hub-page .site-footer a { color: #fff !important; }
 body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !important; }
+
+/* ========================================================= */
+/* === OVERRIDE HOME PAGE FULL SCREEN                    === */
+/* ========================================================= */
+body.home-page .main-content { padding: 0 !important; display: block !important; } 
+body.home-page .content-header { display: none !important; } 
+body.home-page .gallery { display: flex !important; flex-direction: column !important; min-height: 100vh !important; }
+body.home-page .gallery-link { height: 98vh !important; min-height: 98vh !important; width: 100% !important; position: relative !important; } 
+body.home-page .gallery img { border-radius: 0 !important; height: 100% !important; width: 100% !important; object-fit: cover !important; } 
+body.home-page .gallery-overlay { display: block !important; }
+body.home-page .site-footer { margin-left: calc(-1 * var(--sidebar-width)); margin-right: 0; margin-top: 0; }
 
 /* ========================================================= */
 /* === MOBILE (Smartphone)                               === */
@@ -296,67 +167,20 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
 @media (max-width: 768px) {
     .mobile-header { display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: var(--bg-color); z-index: 1002; padding: 0 20px; }
     
-    .logo-mobile { width: 70px; display: block; height: 35px; } 
+    /* MODIFICA: Logo Mobile più grande e centrato verticalmente */
+    .logo-mobile { width: 110px; display: block; height: 55px; } 
     .logo-mobile img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: left center; }
     
     .sidebar { transform: translateX(-100%); width: 100%; padding: 90px 20px 30px 20px; transition: 0.3s ease; border-right: none; z-index: 1001; }
     .sidebar.open { transform: translateX(0); }
     .desktop-logo, .menu-arrow, .hours { display: none; }
-    
-    .mobile-menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
-    .mobile-menu-title { font-family: var(--font-serif); font-size: 2.8rem; line-height: 1; color: var(--text-color); }
-
-    .nav-menu ul { border-top: none; } 
-    .nav-menu li { margin-bottom: 0; border-bottom: 1px solid #111; }
     .nav-menu a { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; padding: 15px 0; display: block; }
-
-    body.hub-page .nav-menu li { border-bottom-color: #0000ff; }
-
     .main-content { margin-left: 0; padding: 100px 15px 0 15px; }
-    body.home-page .main-content { padding: 70px 0 0 0 !important; }
-    
-    .content-header { flex-direction: column; margin-bottom: 45px; }
-    .main-title { font-size: 1.8rem; }
-    .events-link { display: none; } 
-    
-    .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; align-items: start; }
-    .event-item:first-child .event-header, .event-item:first-child .artist-header { padding-top: 0; }
-    
-    .e-date { font-size: 0.75rem; font-weight: 800; line-height: 1.2; } 
-    .e-title { font-size: 0.85rem; line-height: 1.15; } 
-    .e-loc { display: none; } 
-    
-    .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; font-family: var(--font-sans); justify-self: end; align-self: center; line-height: 0; }
-    .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
-
+    .event-header { grid-template-columns: 75px 1fr 20px; gap: 10px; padding: 15px 0; }
+    .event-header::after { content: '+'; font-size: 1.3rem; font-weight: 300; justify-self: end; }
+    .event-item.open .event-header::after { content: '−'; }
     .event-item.open .event-details { display: flex; flex-direction: column; padding: 10px 0 20px 0; }
-    .e-desc { display: contents; }
-    .e-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
-    .e-image { order: 2; width: 100%; margin-bottom: 0; } 
-    .e-image img { min-height: auto; border-radius: 0; } 
-    .buy-tickets { order: 3; margin: 15px 0 0 0; font-size: 1.1rem; font-weight: 800; } 
-
-    .artist-header { grid-template-columns: 1fr auto; padding: 15px 0; align-items: start; }
-    .a-name { font-size: 0.85rem; grid-column: 1 / 2; line-height: 1.15; } 
-    .a-category { font-size: 0.75rem; grid-column: 1 / 2; grid-row: 2; color: #555; margin-top: 3px; }
-    .a-date { font-size: 0.75rem; grid-column: 2 / 3; grid-row: 1; text-align: right; }
-
-    .a-desc { display: contents; }
-    .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
-    .a-image { order: 2; width: 100%; margin-bottom: 0; } 
-    .a-image img { min-height: auto; border-radius: 0; }
-
-    .hero-quote { min-height: 70vh; }
-
-    /* === RESPONSIVE FIX PER FOOTER MOBILE === */
-    .site-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 15px; padding: 40px 20px; margin-left: -15px; margin-right: -15px; margin-top: auto; align-self: stretch; }
-    body.home-page .site-footer { margin-left: 0; margin-right: 0; }
-    
-    .footer-logo { grid-column: 1 / -1; width: 110px; }
-    .footer-col:nth-child(2) { grid-column: 1 / -1; margin-bottom: -10px; }
-    .footer-col:last-child { grid-column: 1 / -1; margin-top: 10px; text-wrap: pretty; font-size: 0.82rem; }
-
-    /* === RIPRISTINO ALTEZZA IMMAGINI HOME SU MOBILE === */
-    body.home-page .gallery-link { height: 45vh !important; min-height: 45vh !important; max-height: 45vh !important; flex: none !important; } 
-    body.home-page .gallery img { height: 100% !important; }
+    .e-image img { min-height: auto; } 
+    .site-footer { margin-left: -15px; margin-right: -15px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    body.home-page .gallery-link { height: 45vh !important; min-height: 45vh !important; }
 }
