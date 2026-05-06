@@ -105,8 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     const imageUrl = getDirectImageUrl(data[0]);
                     const targetPage = (data[1] || '#').trim();
-                    const dateText = (data[2] || '').trim();
-                    const artistText = (data[3] || '').trim();
+                    
+                    // AGGIUNTO FIX A CAPO PER LA HOME
+                    const dateText = (data[2] || '').trim().replace(/\n/g, '<br>');
+                    const artistText = (data[3] || '').trim().replace(/\n/g, '<br>');
 
                     if (imageUrl) {
                         const linkEl = document.createElement('a');
@@ -135,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let SHEET_ID = '';
         let TAB_NAME = '';
         
-        // Controllo infallibile: analizza l'intero URL e lo converte in minuscolo
         const currentPageUrl = window.location.href.toLowerCase();
 
         if (currentPageUrl.includes('exhibitions') || currentPageUrl.includes('art-events')) {
@@ -159,12 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     for (let i = 1; i < rows.length; i++) {
                         const data = rows[i];
-                        if (!data[0]) continue; // Salta righe totalmente vuote
+                        if (!data[0]) continue; 
 
-                        // Variabili protette: se la cella è vuota non mandano in blocco il codice
+                        // TUTTI I CAMPI ORA SUPPORTANO GLI A CAPO
                         const eDate = data[0] ? data[0].replace(/\n/g, '<br>') : '';
-                        const eTitleName = data[1] ? data[1].toUpperCase() : '';
-                        const eTitleSub = data[2] || '';
+                        const eTitleName = data[1] ? data[1].toUpperCase().replace(/\n/g, '<br>') : '';
+                        const eTitleSub = data[2] ? data[2].replace(/\n/g, '<br>') : '';
                         const eDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
                         const imageUrl = getDirectImageUrl(data[4]);
                         const ticketsLink = data[5] || '';
@@ -172,6 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const article = document.createElement('article');
                         article.className = 'event-item';
+                        article.id = 'evento-' + i; 
+
                         article.innerHTML = `
                             <div class="event-header">
                                 <div class="e-date">${eDate}</div>
@@ -194,9 +197,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         eventsContainer.appendChild(article);
                     }
+
+                    if (window.location.hash) {
+                        setTimeout(() => {
+                            const targetEvent = document.querySelector(window.location.hash);
+                            if (targetEvent) {
+                                targetEvent.classList.add('open');
+                                const y = targetEvent.getBoundingClientRect().top + window.scrollY - 120;
+                                window.scrollTo({top: y, behavior: 'smooth'});
+                            }
+                        }, 300); 
+                    }
                 })
                 .catch(err => {
-                    eventsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-sans); color: red;">Ops! Impossibile caricare gli eventi. Verifica che il foglio Google sia pubblico e che i nomi siano corretti.</p>';
+                    eventsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-sans); color: red;">Ops! Impossibile caricare gli eventi.</p>';
                     console.error(err);
                 });
         }
@@ -219,10 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = rows[i];
                     if (!data[0]) continue; 
 
-                    // Variabili protette anche qui per sicurezza
-                    const aName = data[0] || '';
-                    const aCat = data[1] || '';
-                    const aDate = data[2] || '';
+                    // TUTTI I CAMPI ARTISTI ORA SUPPORTANO GLI A CAPO
+                    const aName = data[0] ? data[0].replace(/\n/g, '<br>') : '';
+                    const aCat = data[1] ? data[1].replace(/\n/g, '<br>') : '';
+                    const aDate = data[2] ? data[2].replace(/\n/g, '<br>') : '';
                     const aDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
 
                     const article = document.createElement('article');
