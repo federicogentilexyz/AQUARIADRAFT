@@ -41,7 +41,7 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .desktop-logo { 
     display: block; 
     width: 100%; 
-    max-width: 80px; 
+    max-width: 100px; 
     flex-shrink: 0;
     
     /* CENTRATURA AUTOMATICA NEL MENÙ LARGO */
@@ -49,10 +49,10 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
     margin-right: auto;
     
     /* COMANDO 1: SU E GIÙ PER IL LOGO */
-    margin-top: -10px; 
+    margin-top: -24px; 
     
     /* COMANDO 2: ALLINEAMENTO DI "EXHIBITIONS" COL TESTO A DESTRA */
-    margin-bottom: 11px; 
+    margin-bottom: 6px; 
 }
 
 .desktop-logo img { 
