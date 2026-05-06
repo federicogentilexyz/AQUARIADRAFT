@@ -198,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // FUNZIONE MAGICA CORAZZATA (Anti-ritardo da server reale)
                     if (window.location.hash) {
-                        // requestAnimationFrame assicura che l'HTML sia stato fisicamente disegnato sullo schermo
                         requestAnimationFrame(() => {
                             setTimeout(() => {
                                 const hashId = window.location.hash.substring(1); 
@@ -208,12 +207,11 @@ document.addEventListener('DOMContentLoaded', () => {
                                     targetEvent.classList.add('open'); 
                                     
                                     setTimeout(() => {
-                                        // Scrolla dolcemente togliendo lo spazio per l'header
                                         const y = targetEvent.getBoundingClientRect().top + window.scrollY - 100;
                                         window.scrollTo({top: y, behavior: 'smooth'});
-                                    }, 250); // Diamogli tempo di aprire la tendina
+                                    }, 250); 
                                 }
-                            }, 150); // Diamogli tempo di leggere i dati da Google Sheets
+                            }, 150); 
                         });
                     }
                 })
@@ -225,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 5. LOGICA ARTISTS
+    // 5. LOGICA ARTISTS (Aggiornata con Immagini!)
     // ==========================================
     const artistsContainer = document.getElementById('artists-container');
     if (artistsContainer) {
@@ -245,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const aCat = data[1] ? data[1].replace(/\n/g, '<br>') : '';
                     const aDate = data[2] ? data[2].replace(/\n/g, '<br>') : '';
                     const aDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
+                    const imageUrl = getDirectImageUrl(data[4]); // Legge la colonna E
 
                     const article = document.createElement('article');
                     article.className = 'event-item'; 
@@ -255,9 +254,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="a-date">${aDate}</div>
                         </div>
                         <div class="event-details">
-                            <div class="a-desc">
+                            <!-- Se non c'è l'immagine, il testo prende tutto lo spazio! -->
+                            <div class="a-desc" ${!imageUrl ? 'style="grid-column: 1 / -1; padding-right: 0;"' : ''}>
                                 <p>${aDesc}</p>
                             </div>
+                            <!-- Se c'è l'immagine, crea il blocco laterale -->
+                            ${imageUrl ? `
+                            <div class="a-image">
+                                <img src="${imageUrl}" alt="Artista">
+                            </div>` : ''}
                         </div>`;
                     
                     article.querySelector('.artist-header').addEventListener('click', () => {
