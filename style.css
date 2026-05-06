@@ -341,10 +341,11 @@ body.hub-page .site-footer .invert-logo { filter: brightness(0) invert(1) !impor
     .event-item.open .event-header::after { content: '−'; font-size: 1.6rem; }
 
     .event-item.open .event-details { display: flex; flex-direction: column; padding: 10px 0 20px 0; }
-    .e-desc { display: contents; }
-    .e-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
-    .e-image { order: 2; width: 100%; margin-bottom: 0; } 
-    .e-image img { min-height: auto; border-radius: 0; } 
+    /* 👇 FIX: Resetta i margini di Artists e Exhibitions per farli allargare fino in fondo 👇 */
+.e-desc, .a-desc { display: contents; }
+.e-desc p, .a-desc p { order: 1; padding: 0; margin-bottom: 15px; font-family: var(--font-sans); } 
+.e-image, .a-image { order: 2; width: 100%; margin-bottom: 0; } 
+.e-image img, .a-image img { min-height: auto; border-radius: 0; }
     .buy-tickets { order: 3; margin: 15px 0 0 0; font-size: 1.1rem; font-weight: 800; } 
 
     /* 👇 MENU ARTISTI MOBILE: Tolta la data 👇 */
