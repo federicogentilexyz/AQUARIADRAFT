@@ -78,12 +78,27 @@ body { background-color: var(--bg-color); color: var(--text-color); display: fle
 .g-date { background-color: white; padding: 2px 6px; font-family: var(--font-sans); font-size: 0.8rem; color: #111; white-space: nowrap; }
 .g-artist { background-color: white; padding: 2px 6px; font-family: var(--font-sans); font-size: 0.9rem; font-weight: 400; text-transform: uppercase; color: #111; white-space: nowrap; }
 
-/* OVERRIDE HOME PAGE FULL SCREEN (Desktop & Mobile) */
+/* ========================================================= */
+/* === OVERRIDE HOME PAGE FULL SCREEN (Desktop & Mobile) === */
+/* ========================================================= */
 body.home-page .main-content { padding: 0; } 
 body.home-page .gallery { padding-bottom: 0; } 
 body.home-page .content-header { display: none; } 
-body.home-page .gallery img { border-radius: 0; } 
-body.home-page .gallery-overlay { display: flex; } 
+
+/* Limitiamo l'altezza all'85% dello schermo per far intuire lo scroll */
+body.home-page .gallery-link { 
+    height: 98vh; 
+    display: block; 
+    width: 100%; 
+} 
+body.home-page .gallery img { 
+    border-radius: 0; 
+    height: 100%; 
+    width: 100%; 
+    object-fit: cover; 
+} 
+
+body.home-page .gallery-overlay { display: flex; }
 
 /* === ALTRE PAGINE E FISARMONICA === */
 .about-text { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.1; color: var(--text-color); margin-bottom: 80px; }
