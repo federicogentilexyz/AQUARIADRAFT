@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let arrow = document.querySelector('.menu-arrow');
     const hamburger = document.getElementById('hamburger-menu');
     
-    // 👇 FIX: Ricrea la freccia se manca nell'HTML
+    // FIX: Ricrea la freccia se manca nell'HTML
     if (!arrow && sidebar) {
         arrow = document.createElement('div');
         arrow.className = 'menu-arrow';
@@ -116,25 +116,53 @@ document.addEventListener('DOMContentLoaded', () => {
         return lines;
     }
 
+    // NUOVA FUNZIONE: Traduce e inverte le date in inglese (es: 15 maggio -> May 15th)
     function translateDateToEN(dateStr) {
         if (!dateStr) return '';
-        const dictionary = {
-            'gennaio': 'January', 'febbraio': 'February', 'marzo': 'March',
-            'aprile': 'April', 'maggio': 'May', 'giugno': 'June',
-            'luglio': 'July', 'agosto': 'August', 'settembre': 'September',
-            'ottobre': 'October', 'novembre': 'November', 'dicembre': 'December',
+        
+        // 1. Traduciamo le parole di collegamento
+        const wordDict = {
             'dal': 'from', 'al': 'to', 'del': 'of', 'Dal': 'From', 'Al': 'To'
         };
         let translated = dateStr;
-        for (const [it, en] of Object.entries(dictionary)) {
-            const regex = new RegExp('\\b' + it + '\\b', 'gi');
-            translated = translated.replace(regex, match => {
-                if (match.charAt(0) === match.charAt(0).toUpperCase()) {
-                    return en.charAt(0).toUpperCase() + en.slice(1);
-                }
-                return en;
-            });
+        for (const [it, en] of Object.entries(wordDict)) {
+            translated = translated.replace(new RegExp('\\b' + it + '\\b', 'g'), en);
         }
+
+        // 2. Mappatura dei mesi
+        const months = {
+            'gennaio': 'January', 'febbraio': 'February', 'marzo': 'March',
+            'aprile': 'April', 'maggio': 'May', 'giugno': 'June',
+            'luglio': 'July', 'agosto': 'August', 'settembre': 'September',
+            'ottobre': 'October', 'novembre': 'November', 'dicembre': 'December'
+        };
+
+        // 3. Funzione per aggiungere st, nd, rd, th in modo matematico
+        function getOrdinalSuffix(n) {
+            if (n >= 11 && n <= 13) return n + "th";
+            switch (n % 10) {
+                case 1: return n + "st";
+                case 2: return n + "nd";
+                case 3: return n + "rd";
+                default: return n + "th";
+            }
+        }
+
+        // 4. Invertiamo "Numero Mese" in "Mese Numero+Suffisso" (es. 15 maggio -> May 15th)
+        const monthRegex = new RegExp('(\\d{1,2})\\s+(' + Object.keys(months).join('|') + ')', 'gi');
+        
+        translated = translated.replace(monthRegex, (match, dayStr, monthIT) => {
+            const dayNum = parseInt(dayStr, 10);
+            const dayOrd = getOrdinalSuffix(dayNum);
+            const monthEN = months[monthIT.toLowerCase()];
+            return `${monthEN} ${dayOrd}`;
+        });
+
+        // 5. Se c'è un mese scritto da solo senza numero, lo traduciamo normalmente
+        for (const [it, en] of Object.entries(months)) {
+            translated = translated.replace(new RegExp('\\b' + it + '\\b', 'gi'), en);
+        }
+
         return translated;
     }
 
