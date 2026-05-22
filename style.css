@@ -83,6 +83,7 @@ body.hub-page .lang-switch { color: #0000ff; }
 @media (min-width: 769px) { .mobile-lang { display: none; } }
 
 .mobile-menu-header { display: none; }
+.mobile-lang { font-size: 1.2rem; margin-bottom: 2px; }
 .hours { margin-top: auto; font-family: var(--font-sans); font-size: 0.75rem; line-height: 1.4; color: #222; margin-bottom: 10px; white-space: nowrap; flex-shrink: 0; }
 
 /* === HEADER MOBILE E HAMBURGER === */
