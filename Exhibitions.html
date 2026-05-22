@@ -24,76 +24,130 @@
     </header>
 
     <aside class="sidebar">
-        <div class="menu-arrow"></div>
-
-        <a href="index.html" class="logo desktop-logo">
+        <a href="index.html" class="desktop-logo">
             <img src="logo.png" alt="Aquaria Logo">
         </a>
 
         <div class="mobile-menu-header">
             <div class="mobile-menu-title">Menu</div>
+            <div class="lang-switch mobile-lang">
+                <span class="lang-it active">Ita</span>-<span class="lang-en">Eng</span>
+            </div>
         </div>
 
         <nav class="nav-menu">
             <ul>
-                <li><a href="Exhibitions.html">Exhibitions</a></li>
-                <li><a href="hub-events.html">Hub Events</a></li>
-                <li><a href="artists.html">Artists</a></li>
-                <li><a href="about-us.html">About Us</a></li>
-                <li><a href="contacts.html">Contacts</a></li>
+                <li>
+                    <a href="about-us.html">
+                        <span class="it-only">Chi siamo</span>
+                        <span class="en-only">About us</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Exhibitions.html">
+                        <span class="it-only">Mostre</span>
+                        <span class="en-only">Exhibitions</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="hub-events.html">
+                        <span class="it-only">Hub eventi</span>
+                        <span class="en-only">Hub events</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="artists.html">
+                        <span class="it-only">Artisti</span>
+                        <span class="en-only">Artists</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="contacts.html">
+                        <span class="it-only">Contatti</span>
+                        <span class="en-only">Contact us</span>
+                    </a>
+                </li>
             </ul>
         </nav>
-
+        
         <div class="hours">
-            Martedì - Domenica<br>
-            dalle 10 alle 18
+            <span class="it-only">Martedì - Sabato<br>dalle 10 alle 18</span>
+            <span class="en-only">Tuesday - Saturday<br>10am to 6pm</span>
+        </div>
+
+        <div class="lang-switch desktop-lang">
+            <span class="lang-it active">Ita</span>-<span class="lang-en">Eng</span>
         </div>
     </aside>
 
     <main class="main-content">
         <header class="content-header">
-            <h1 class="main-title">Exhibitions</h1>
-            <a href="art-events.html" class="events-link">Scopri i nostri eventi!</a>
+            <h1 class="main-title">
+                <span class="it-only">Mostre</span>
+                <span class="en-only">Exhibitions</span>
+            </h1>
+            <a href="Exhibitions.html" class="events-link">
+                <span class="it-only">Scopri i nostri eventi!</span>
+                <span class="en-only">Discover our events!</span>
+            </a>
         </header>
 
         <div class="events-list" id="events-container">
             <p style="padding: 30px; font-family: var(--font-serif); font-size: 1.2rem;">
-                Caricamento eventi...
+                <span class="it-only">Caricamento eventi...</span>
+                <span class="en-only">Loading events...</span>
             </p>
         </div>
         
-        <!-- INIZIO FOOTER -->
-        <footer class="site-footer">
-            <a href="index.html" class="footer-logo">
-                <img src="logo.png" alt="Aquaria Logo" class="invert-logo">
-            </a>
-            
+       <footer class="site-footer">
             <div class="footer-col">
-                Cultural Hub<br>
-                / Art Exhibition
+                <a href="index.html" class="footer-logo">
+                    <img src="logo_footer.png" alt="Aquaria Logo Footer" class="invert-logo">
+                </a>
             </div>
-            
+
             <div class="footer-col">
-                <a href="artists.html">Artists</a><br>
-                <a href="about-us.html">About us</a><br>
-                <a href="contacts.html">Contacts</a>
+                <div style="font-family: var(--font-sans); font-size: 1rem; line-height: 1.3;">
+                    Cultural Hub<br>/ Art Exhibition
+                </div>
             </div>
-            
-            <div class="footer-col">
-                <a href="Exhibitions.html">Exhibitions</a><br>
-                <a href="hub-events.html">Hub events</a><br>
-                <a href="#">Terms&Condition</a>
+
+            <div class="footer-col" style="gap: 12px;">
+                <a href="artists.html">
+                    <span class="it-only">Artisti</span>
+                    <span class="en-only">Artists</span>
+                </a>
+                <a href="about-us.html">
+                    <span class="it-only">Chi siamo</span>
+                    <span class="en-only">About us</span>
+                </a>
+                <a href="contacts.html">
+                    <span class="it-only">Contatti</span>
+                    <span class="en-only">Contacts</span>
+                </a>
             </div>
-            
-            <div class="footer-col">
-                +39 34251 00208<br>
-                Calle Del Tentor, 1841, 30135 Venezia VE<br>
-                Martedì - Domenica, 10am-6pm
+
+            <div class="footer-col" style="gap: 12px;">
+                <a href="Exhibitions.html">
+                    <span class="it-only">Mostre</span>
+                    <span class="en-only">Exhibitions</span>
+                </a>
+                <a href="hub-events.html">
+                    <span class="it-only">Hub eventi</span>
+                    <span class="en-only">Hub events</span>
+                </a>
+                <a href="privacy.html">Privacy & Cookie Policy</a>
+            </div>
+
+            <div class="footer-col" style="line-height: 1.5;">
+                +39 348 531 4257<br>
+                Calle Del Tentor 1841, 30135 Venezia (VE)<br>
+                <span class="it-only">Martedì - Sabato, 10:00 - 18:00</span>
+                <span class="en-only">Tuesday - Saturday, 10am - 6pm</span>
             </div>
         </footer>
-        <!-- FINE FOOTER -->
     </main>
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>
