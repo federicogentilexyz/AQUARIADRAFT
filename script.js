@@ -1,14 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
+    // 0. LOGICA TASTI LINGUA MANUALE (ITA - ENG)
+    // ==========================================
+    
+    // KILLER DEL COOKIE DI GOOGLE TRANSLATE (Elimina residui)
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname;
+
+    const btnEnList = document.querySelectorAll('.lang-en');
+    const btnItList = document.querySelectorAll('.lang-it');
+
+    let currentLang = localStorage.getItem('siteLang') || 'it';
+    setLanguage(currentLang);
+
+    btnEnList.forEach(btn => btn.addEventListener('click', () => setLanguage('en')));
+    btnItList.forEach(btn => btn.addEventListener('click', () => setLanguage('it')));
+
+    function setLanguage(lang) {
+        localStorage.setItem('siteLang', lang);
+        
+        document.body.classList.remove('lang-it', 'lang-en');
+        document.body.classList.add(`lang-${lang}`);
+        
+        if (lang === 'it') {
+            btnItList.forEach(btn => btn.classList.add('active'));
+            btnEnList.forEach(btn => btn.classList.remove('active'));
+        } else {
+            btnEnList.forEach(btn => btn.classList.add('active'));
+            btnItList.forEach(btn => btn.classList.remove('active'));
+        }
+    }
+
+    // ==========================================
     // 1. MENU ATTIVO, FRECCIA E HAMBURGER
     // ==========================================
     const navLinks = document.querySelectorAll('.nav-menu a');
-    const arrow = document.querySelector('.menu-arrow');
     const sidebar = document.querySelector('.sidebar');
+    let arrow = document.querySelector('.menu-arrow');
     const hamburger = document.getElementById('hamburger-menu');
-    let currentPath = window.location.pathname.split('/').pop();
     
+    // 👇 FIX: Ricrea la freccia se manca nell'HTML
+    if (!arrow && sidebar) {
+        arrow = document.createElement('div');
+        arrow.className = 'menu-arrow';
+        sidebar.appendChild(arrow);
+    }
+
+    let currentPath = window.location.pathname.split('/').pop();
     if (currentPath === '' || currentPath === 'index.html') currentPath = 'index.html'; 
 
     let activeLink = null;
@@ -32,16 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (activeLink) setTimeout(() => moveArrowTo(activeLink), 50);
-
-    navLinks.forEach(link => {
-        link.addEventListener('mouseenter', function() { moveArrowTo(this); });
-    });
-
-    if(sidebar) {
-        sidebar.addEventListener('mouseleave', function() {
-            moveArrowTo(activeLink);
-        });
-    }
+    navLinks.forEach(link => link.addEventListener('mouseenter', function() { moveArrowTo(this); }));
+    if(sidebar) sidebar.addEventListener('mouseleave', function() { moveArrowTo(activeLink); });
 
     if (hamburger && sidebar) {
         hamburger.addEventListener('click', () => {
@@ -51,14 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 2. FUNZIONI DI UTILITÀ
+    // 2. FUNZIONI DI UTILITÀ E TRADUZIONE DATE
     // ==========================================
     function getDirectImageUrl(url) {
         if (!url) return '';
         let cleanUrl = url.trim();
-        
         if (cleanUrl.includes('dropbox.com')) return cleanUrl.replace('?dl=0', '?raw=1').replace('?dl=1', '?raw=1');
-
         if (cleanUrl.includes('drive.google.com')) {
             const driveMatch = cleanUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             const openMatch = cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
@@ -87,6 +116,28 @@ document.addEventListener('DOMContentLoaded', () => {
         return lines;
     }
 
+    function translateDateToEN(dateStr) {
+        if (!dateStr) return '';
+        const dictionary = {
+            'gennaio': 'January', 'febbraio': 'February', 'marzo': 'March',
+            'aprile': 'April', 'maggio': 'May', 'giugno': 'June',
+            'luglio': 'July', 'agosto': 'August', 'settembre': 'September',
+            'ottobre': 'October', 'novembre': 'November', 'dicembre': 'December',
+            'dal': 'from', 'al': 'to', 'del': 'of', 'Dal': 'From', 'Al': 'To'
+        };
+        let translated = dateStr;
+        for (const [it, en] of Object.entries(dictionary)) {
+            const regex = new RegExp('\\b' + it + '\\b', 'gi');
+            translated = translated.replace(regex, match => {
+                if (match.charAt(0) === match.charAt(0).toUpperCase()) {
+                    return en.charAt(0).toUpperCase() + en.slice(1);
+                }
+                return en;
+            });
+        }
+        return translated;
+    }
+
     // ==========================================
     // 3. LOGICA HOMEPAGE
     // ==========================================
@@ -95,37 +146,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const SHEET_ID_HOME = '1KyYkhsmas5Zgqznv9216sDXjvKdSGKrRfB75GJbysrc'; 
         const urlHome = `https://docs.google.com/spreadsheets/d/${SHEET_ID_HOME}/gviz/tq?tqx=out:csv`;
 
-        fetch(urlHome)
-            .then(res => res.text())
-            .then(csvText => {
-                homeGallery.innerHTML = '';
-                const rows = parseCSV(csvText);
-                rows.forEach((data, index) => {
-                    if (index === 0 || !data[0]) return;
-                    
-                    const imageUrl = getDirectImageUrl(data[0]);
-                    const targetPage = (data[1] || '#').trim();
-                    
-                    const dateText = (data[2] || '').trim().replace(/\n/g, '<br>');
-                    const artistText = (data[3] || '').trim().replace(/\n/g, '<br>');
+        fetch(urlHome).then(res => res.text()).then(csvText => {
+            homeGallery.innerHTML = '';
+            const rows = parseCSV(csvText);
+            rows.forEach((data, index) => {
+                if (index === 0 || !data[0]) return;
+                const imageUrl = getDirectImageUrl(data[0]);
+                const targetPage = (data[1] || '#').trim();
+                
+                const dateTextIT = (data[2] || '').trim().replace(/\n/g, '<br>');
+                const dateTextEN = translateDateToEN(dateTextIT);
+                const artistText = (data[3] || '').trim().replace(/\n/g, '<br>');
 
-                    if (imageUrl) {
-                        const linkEl = document.createElement('a');
-                        linkEl.href = targetPage;
-                        linkEl.className = 'gallery-link';
-                        
-                        linkEl.innerHTML = `
-                            <img src="${imageUrl}" alt="Evento">
-                            <div class="gallery-overlay">
-                                ${dateText ? `<span class="g-date">${dateText}</span>` : ''}
-                                ${artistText ? `<span class="g-artist">${artistText}</span>` : ''}
-                            </div>
-                        `;
-                        homeGallery.appendChild(linkEl);
-                    }
-                });
-            })
-            .catch(err => console.error("Errore galleria home:", err));
+                if (imageUrl) {
+                    const linkEl = document.createElement('a');
+                    linkEl.href = targetPage;
+                    linkEl.className = 'gallery-link';
+                    linkEl.innerHTML = `
+                        <img src="${imageUrl}" alt="Evento">
+                        <div class="gallery-overlay">
+                            ${dateTextIT ? `<span class="g-date"><span class="it-only">${dateTextIT}</span><span class="en-only">${dateTextEN}</span></span>` : ''}
+                            ${artistText ? `<span class="g-artist">${artistText}</span>` : ''}
+                        </div>`;
+                    homeGallery.appendChild(linkEl);
+                }
+            });
+        }).catch(err => console.error("Errore galleria home:", err));
     }
 
     // ==========================================
@@ -135,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (eventsContainer) {
         let SHEET_ID = '';
         let TAB_NAME = '';
-        
         const currentPageUrl = window.location.href.toLowerCase();
 
         if (currentPageUrl.includes('exhibitions') || currentPageUrl.includes('art-events')) {
@@ -147,134 +192,147 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (SHEET_ID) {
-            eventsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-serif);">Caricamento eventi...</p>';
-
             const urlEvents = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${TAB_NAME}`;
             
-            fetch(urlEvents)
-                .then(res => res.text())
-                .then(csvText => {
-                    eventsContainer.innerHTML = '';
-                    const rows = parseCSV(csvText);
+            fetch(urlEvents).then(res => res.text()).then(csvText => {
+                eventsContainer.innerHTML = '';
+                const rows = parseCSV(csvText);
+                for (let i = 1; i < rows.length; i++) {
+                    const data = rows[i];
+                    if (!data[0]) continue; 
+
+                    const eDateIT = data[0] ? data[0].replace(/\n/g, '<br>') : '';
+                    const eDateEN = translateDateToEN(eDateIT);
+
+                    const eTitleName = data[1] ? data[1].toUpperCase().replace(/\n/g, '<br>') : '';
+                    const eTitleSub = data[2] ? data[2].replace(/\n/g, '<br>') : '';
                     
-                    for (let i = 1; i < rows.length; i++) {
-                        const data = rows[i];
-                        if (!data[0]) continue; 
+                    let finalTitleHTML = '';
+                    if (TAB_NAME === 'Hub_Events') {
+                        finalTitleHTML = `${eTitleSub}`;
+                    } else {
+                        if (eTitleName && eTitleSub) finalTitleHTML = `${eTitleName}<br>“${eTitleSub}”`;
+                        else if (eTitleName) finalTitleHTML = `${eTitleName}`;
+                        else if (eTitleSub) finalTitleHTML = `“${eTitleSub}”`;
+                    }
+                    
+                    const eDescIT = data[3] ? data[3].replace(/\n/g, '<br>') : '';
+                    const eDescEN = data[7] ? data[7].replace(/\n/g, '<br>') : eDescIT; 
+                    
+                    const imageUrl = getDirectImageUrl(data[4]);
+                    const ticketsLink = data[5] || '';
+                    const eLoc = data[6] ? data[6].replace(/\n/g, '<br>') : '';
 
-                        const eDate = data[0] ? data[0].replace(/\n/g, '<br>') : '';
-                        const eTitleName = data[1] ? data[1].toUpperCase().replace(/\n/g, '<br>') : '';
-                        const eTitleSub = data[2] ? data[2].replace(/\n/g, '<br>') : '';
-                        const eDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
-                        const imageUrl = getDirectImageUrl(data[4]);
-                        const ticketsLink = data[5] || '';
-                        const eLoc = data[6] ? data[6].replace(/\n/g, '<br>') : '';
+                    let btnItText = TAB_NAME === 'Art_Events' ? "Scarica l'exhibition dossier" : 'Acquista i biglietti';
+                    let btnEnText = TAB_NAME === 'Art_Events' ? "Download exhibition dossier" : 'Buy tickets';
 
-                        const article = document.createElement('article');
-                        article.className = 'event-item';
-                        article.id = 'evento-' + i; 
+                    const article = document.createElement('article');
+                    article.className = 'event-item';
+                    article.id = 'evento-' + i; 
 
-                        article.innerHTML = `
-                            <div class="event-header">
-                                <div class="e-date">${eDate}</div>
-                                <div class="e-title">${eTitleName}<br>“${eTitleSub}”</div>
-                                <div class="e-loc">${eLoc}</div>
+                    article.innerHTML = `
+                        <div class="event-header">
+                            <div class="e-date">
+                                <span class="it-only">${eDateIT}</span>
+                                <span class="en-only">${eDateEN}</span>
                             </div>
-                            <div class="event-details">
-                                <div class="e-desc">
-                                    <p>${eDesc}</p>
-                                    ${ticketsLink ? `<a href="${ticketsLink}" target="_blank" class="buy-tickets">Acquista i biglietti</a>` : ''}
+                            <div class="e-title">${finalTitleHTML}</div>
+                            <div class="e-loc">${eLoc}</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="e-desc">
+                                <div class="it-only">
+                                    <p>${eDescIT}</p>
+                                    ${ticketsLink ? `<a href="${ticketsLink}" target="_blank" class="buy-tickets">${btnItText}</a>` : ''}
                                 </div>
-                                <div class="e-image">
-                                    ${imageUrl ? `<img src="${imageUrl}" alt="Evento">` : ''}
+                                <div class="en-only">
+                                    <p>${eDescEN}</p>
+                                    ${ticketsLink ? `<a href="${ticketsLink}" target="_blank" class="buy-tickets">${btnEnText}</a>` : ''}
                                 </div>
-                            </div>`;
-                        
-                        article.querySelector('.event-header').addEventListener('click', () => {
-                            document.querySelectorAll('.event-item').forEach(el => { if(el !== article) el.classList.remove('open'); });
-                            article.classList.toggle('open');
-                        });
-                        eventsContainer.appendChild(article);
-                    }
+                            </div>
+                            <div class="e-image">
+                                ${imageUrl ? `<img src="${imageUrl}" alt="Evento">` : ''}
+                            </div>
+                        </div>`;
+                    
+                    article.querySelector('.event-header').addEventListener('click', () => {
+                        document.querySelectorAll('.event-item').forEach(el => { if(el !== article) el.classList.remove('open'); });
+                        article.classList.toggle('open');
+                    });
+                    eventsContainer.appendChild(article);
+                }
 
-                    // FUNZIONE MAGICA CORAZZATA (Anti-ritardo da server reale)
-                    if (window.location.hash) {
-                        requestAnimationFrame(() => {
-                            setTimeout(() => {
-                                const hashId = window.location.hash.substring(1); 
-                                const targetEvent = document.getElementById(hashId);
-                                
-                                if (targetEvent) {
-                                    targetEvent.classList.add('open'); 
-                                    
-                                    setTimeout(() => {
-                                        const y = targetEvent.getBoundingClientRect().top + window.scrollY - 100;
-                                        window.scrollTo({top: y, behavior: 'smooth'});
-                                    }, 250); 
-                                }
-                            }, 150); 
-                        });
-                    }
-                })
-                .catch(err => {
-                    eventsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-sans); color: red;">Ops! Impossibile caricare gli eventi.</p>';
-                    console.error(err);
-                });
+                if (window.location.hash) {
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            const hashId = window.location.hash.substring(1); 
+                            const targetEvent = document.getElementById(hashId);
+                            if (targetEvent) {
+                                targetEvent.classList.add('open'); 
+                                setTimeout(() => {
+                                    const y = targetEvent.getBoundingClientRect().top + window.scrollY - 100;
+                                    window.scrollTo({top: y, behavior: 'smooth'});
+                                }, 250); 
+                            }
+                        }, 150); 
+                    });
+                }
+            }).catch(err => console.error(err));
         }
     }
 
     // ==========================================
-    // 5. LOGICA ARTISTS (Aggiornata con Immagini!)
+    // 5. LOGICA ARTISTS
     // ==========================================
     const artistsContainer = document.getElementById('artists-container');
     if (artistsContainer) {
         const SHEET_ID_ARTISTS = '1ivpWB8Pe8iO902BvbB5u5IGoFkA5TXI2xcbu7Of5dG0'; 
         const urlArtists = `https://docs.google.com/spreadsheets/d/${SHEET_ID_ARTISTS}/gviz/tq?tqx=out:csv`;
 
-        fetch(urlArtists)
-            .then(res => res.text())
-            .then(csvText => {
-                artistsContainer.innerHTML = '';
-                const rows = parseCSV(csvText);
-                for (let i = 1; i < rows.length; i++) {
-                    const data = rows[i];
-                    if (!data[0]) continue; 
+        fetch(urlArtists).then(res => res.text()).then(csvText => {
+            artistsContainer.innerHTML = '';
+            const rows = parseCSV(csvText);
+            for (let i = 1; i < rows.length; i++) {
+                const data = rows[i];
+                if (!data[0]) continue; 
 
-                    const aName = data[0] ? data[0].replace(/\n/g, '<br>') : '';
-                    const aCat = data[1] ? data[1].replace(/\n/g, '<br>') : '';
-                    const aDate = data[2] ? data[2].replace(/\n/g, '<br>') : '';
-                    const aDesc = data[3] ? data[3].replace(/\n/g, '<br>') : '';
-                    const imageUrl = getDirectImageUrl(data[4]); // Legge la colonna E
+                const aName = data[0] ? data[0].replace(/\n/g, '<br>') : '';
+                const aCat = data[1] ? data[1].replace(/\n/g, '<br>') : '';
+                
+                const aDateIT = data[2] ? data[2].replace(/\n/g, '<br>') : '';
+                const aDateEN = translateDateToEN(aDateIT);
+                
+                const aDescIT = data[3] ? data[3].replace(/\n/g, '<br>') : '';
+                const aDescEN = data[5] ? data[5].replace(/\n/g, '<br>') : aDescIT; 
+                
+                const imageUrl = getDirectImageUrl(data[4]);
 
-                    const article = document.createElement('article');
-                    article.className = 'event-item'; 
-                    article.innerHTML = `
-                        <div class="artist-header">
-                            <div class="a-name">${aName}</div>
-                            <div class="a-category">${aCat}</div>
-                            <div class="a-date">${aDate}</div>
+                const article = document.createElement('article');
+                article.className = 'event-item'; 
+                
+                article.innerHTML = `
+                    <div class="artist-header">
+                        <div class="a-name">${aName}</div>
+                        <div class="a-category">${aCat}</div>
+                        <div class="a-date">
+                            <span class="it-only">${aDateIT}</span>
+                            <span class="en-only">${aDateEN}</span>
                         </div>
-                        <div class="event-details">
-                            <!-- Se non c'è l'immagine, il testo prende tutto lo spazio! -->
-                            <div class="a-desc" ${!imageUrl ? 'style="grid-column: 1 / -1; padding-right: 0;"' : ''}>
-                                <p>${aDesc}</p>
-                            </div>
-                            <!-- Se c'è l'immagine, crea il blocco laterale -->
-                            ${imageUrl ? `
-                            <div class="a-image">
-                                <img src="${imageUrl}" alt="Artista">
-                            </div>` : ''}
-                        </div>`;
-                    
-                    article.querySelector('.artist-header').addEventListener('click', () => {
-                        document.querySelectorAll('.event-item').forEach(el => { if(el !== article) el.classList.remove('open'); });
-                        article.classList.toggle('open');
-                    });
-                    artistsContainer.appendChild(article);
-                }
-            })
-            .catch(err => {
-                artistsContainer.innerHTML = '<p style="padding: 30px; font-family: var(--font-sans); color: red;">Impossibile caricare gli artisti. Verifica il collegamento al file Google.</p>';
-                console.error(err);
-            });
+                    </div>
+                    <div class="event-details">
+                        <div class="a-desc" ${!imageUrl ? 'style="grid-column: 1 / -1; padding-right: 0;"' : ''}>
+                            <div class="it-only"><p>${aDescIT}</p></div>
+                            <div class="en-only"><p>${aDescEN}</p></div>
+                        </div>
+                        ${imageUrl ? `<div class="a-image"><img src="${imageUrl}" alt="Artista"></div>` : ''}
+                    </div>`;
+                
+                article.querySelector('.artist-header').addEventListener('click', () => {
+                    document.querySelectorAll('.event-item').forEach(el => { if(el !== article) el.classList.remove('open'); });
+                    article.classList.toggle('open');
+                });
+                artistsContainer.appendChild(article);
+            }
+        }).catch(err => console.error(err));
     }
 });
